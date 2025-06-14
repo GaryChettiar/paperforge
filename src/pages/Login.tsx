@@ -54,11 +54,8 @@ const Login = () => {
                     placeholder="you@example.com"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="pl-10 h-12 border-2 transition-colors"
-                    style={{ 
-                      borderColor: '#e5e7eb',
-                      '--tw-ring-color': '#7ca982'
-                    }}
+                    className="pl-10 h-12 border-2 transition-colors focus:border-opacity-70"
+                    style={{ borderColor: '#7ca982' }}
                   />
                 </div>
               </div>
@@ -73,11 +70,8 @@ const Login = () => {
                     placeholder="Enter your password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    className="pl-10 pr-10 h-12 border-2 transition-colors"
-                    style={{ 
-                      borderColor: '#e5e7eb',
-                      '--tw-ring-color': '#7ca982'
-                    }}
+                    className="pl-10 pr-10 h-12 border-2 transition-colors focus:border-opacity-70"
+                    style={{ borderColor: '#7ca982' }}
                   />
                   <button
                     type="button"

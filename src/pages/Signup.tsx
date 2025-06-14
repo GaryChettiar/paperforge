@@ -19,23 +19,23 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
-        <div className="absolute top-0 left-0 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute top-0 right-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #f1f7ed 0%, #7ca982 100%)' }}>
+      {/* Subtle animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob" style={{ backgroundColor: '#7ca982' }}></div>
+        <div className="absolute top-0 right-0 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" style={{ backgroundColor: '#243e36' }}></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-25 animate-blob animation-delay-4000" style={{ backgroundColor: '#7ca982' }}></div>
       </div>
 
       <div className="relative z-10 w-full max-w-md px-4">
-        <Card className="backdrop-blur-sm bg-white/90 shadow-2xl border-0">
+        <Card className="backdrop-blur-sm bg-white/95 shadow-xl border-0">
           <CardHeader className="space-y-1 pb-8">
             <div className="flex items-center justify-center mb-4">
-              <div className="bg-gradient-to-r from-green-600 to-teal-600 p-3 rounded-full">
+              <div className="p-3 rounded-full" style={{ backgroundColor: '#243e36' }}>
                 <UserPlus className="w-8 h-8 text-white" />
               </div>
             </div>
-            <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-bold text-center" style={{ color: '#243e36' }}>
               Join ResumeAI
             </CardTitle>
             <CardDescription className="text-center text-gray-600 text-lg">
@@ -46,7 +46,7 @@ const Signup = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Full Name</label>
+                <label className="text-sm font-medium" style={{ color: '#243e36' }}>Full Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
@@ -55,13 +55,14 @@ const Signup = () => {
                     placeholder="John Doe"
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    className="pl-10 h-12 border-2 focus:border-green-500 transition-colors"
+                    className="pl-10 h-12 border-2 transition-colors focus:border-opacity-70"
+                    style={{ borderColor: '#7ca982' }}
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Email Address</label>
+                <label className="text-sm font-medium" style={{ color: '#243e36' }}>Email Address</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
@@ -70,13 +71,14 @@ const Signup = () => {
                     placeholder="you@example.com"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="pl-10 h-12 border-2 focus:border-green-500 transition-colors"
+                    className="pl-10 h-12 border-2 transition-colors focus:border-opacity-70"
+                    style={{ borderColor: '#7ca982' }}
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Password</label>
+                <label className="text-sm font-medium" style={{ color: '#243e36' }}>Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
@@ -85,7 +87,8 @@ const Signup = () => {
                     placeholder="Create a strong password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    className="pl-10 pr-10 h-12 border-2 focus:border-green-500 transition-colors"
+                    className="pl-10 pr-10 h-12 border-2 transition-colors focus:border-opacity-70"
+                    style={{ borderColor: '#7ca982' }}
                   />
                   <button
                     type="button"
@@ -99,7 +102,8 @@ const Signup = () => {
               
               <Button 
                 type="submit" 
-                className="w-full h-12 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+                className="w-full h-12 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02] hover:opacity-90"
+                style={{ backgroundColor: '#243e36' }}
               >
                 Create Account
               </Button>
@@ -110,7 +114,8 @@ const Signup = () => {
                 Already have an account?{" "}
                 <Link 
                   to="/login" 
-                  className="font-semibold text-green-600 hover:text-teal-600 transition-colors hover:underline"
+                  className="font-semibold transition-colors hover:underline"
+                  style={{ color: '#7ca982' }}
                 >
                   Sign in here
                 </Link>
