@@ -2,60 +2,122 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 
 const Signup = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  // Mock handle signup
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Normally: call backend API to create user.
-    // For demo: just redirect.
     navigate("/profile");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md bg-white p-8 shadow-md rounded-lg">
-        <div className="flex items-center mb-6 gap-2">
-          <UserPlus className="w-6 h-6 text-green-600" />
-          <h2 className="text-2xl font-bold">Sign Up for ResumeAI</h2>
-        </div>
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">Email</label>
-            <Input
-              required
-              type="email"
-              autoComplete="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">Password</label>
-            <Input
-              required
-              type="password"
-              autoComplete="new-password"
-              placeholder="Create a password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-          </div>
-          <Button className="w-full mt-2" type="submit">
-            Sign Up
-          </Button>
-        </form>
-        <div className="text-center mt-4 text-sm">
-          Already have an account?{" "}
-          <Link className="text-blue-600 hover:underline" to="/login">Login</Link>
-        </div>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+        <div className="absolute top-0 left-0 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute top-0 right-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+      </div>
+
+      <div className="relative z-10 w-full max-w-md px-4">
+        <Card className="backdrop-blur-sm bg-white/90 shadow-2xl border-0">
+          <CardHeader className="space-y-1 pb-8">
+            <div className="flex items-center justify-center mb-4">
+              <div className="bg-gradient-to-r from-green-600 to-teal-600 p-3 rounded-full">
+                <UserPlus className="w-8 h-8 text-white" />
+              </div>
+            </div>
+            <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
+              Join ResumeAI
+            </CardTitle>
+            <CardDescription className="text-center text-gray-600 text-lg">
+              Create your account and start building amazing resumes
+            </CardDescription>
+          </CardHeader>
+          
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Full Name</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                  <Input
+                    required
+                    type="text"
+                    placeholder="John Doe"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    className="pl-10 h-12 border-2 focus:border-green-500 transition-colors"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Email Address</label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                  <Input
+                    required
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="pl-10 h-12 border-2 focus:border-green-500 transition-colors"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Password</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                  <Input
+                    required
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Create a strong password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    className="pl-10 pr-10 h-12 border-2 focus:border-green-500 transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
+              </div>
+              
+              <Button 
+                type="submit" 
+                className="w-full h-12 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+              >
+                Create Account
+              </Button>
+            </form>
+            
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-600">
+                Already have an account?{" "}
+                <Link 
+                  to="/login" 
+                  className="font-semibold text-green-600 hover:text-teal-600 transition-colors hover:underline"
+                >
+                  Sign in here
+                </Link>
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
