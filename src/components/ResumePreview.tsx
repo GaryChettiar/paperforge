@@ -9,11 +9,13 @@ import { MinimalTemplate } from './templates/MinimalTemplate';
 interface ResumePreviewProps {
   resumeData: ResumeData;
   template: string;
+  creativeSidebarColor?: string;
 }
 
 export const ResumePreview: React.FC<ResumePreviewProps> = ({
   resumeData,
-  template
+  template,
+  creativeSidebarColor
 }) => {
   const renderTemplate = () => {
     switch (template) {
@@ -22,7 +24,7 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({
       case 'classic':
         return <ClassicTemplate data={resumeData} />;
       case 'creative':
-        return <CreativeTemplate data={resumeData} />;
+        return <CreativeTemplate data={resumeData} sidebarColor={creativeSidebarColor} />;
       case 'minimal':
         return <MinimalTemplate data={resumeData} />;
       default:
