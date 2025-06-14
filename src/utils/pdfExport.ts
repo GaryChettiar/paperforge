@@ -9,31 +9,46 @@ export const exportToPDF = async (elementId: string, filename: string = 'resume.
       throw new Error(`Element with ID "${elementId}" not found. Make sure the resume preview is visible.`);
     }
 
-    // Wait for fonts to load and any animations to finish
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Wait for fonts to load and ensure all content is rendered
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
-    // Create canvas from the element with optimal settings for text rendering
+    // Ensure the element is visible and has content
+    const rect = element.getBoundingClientRect();
+    console.log('Element dimensions:', rect.width, rect.height);
+    console.log('Element content:', element.innerHTML.length > 0 ? 'Content found' : 'No content');
+
+    // Create canvas from the element with settings optimized for text
     const canvas = await html2canvas(element, {
-      scale: 2, // Good balance between quality and performance
+      scale: 2,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
       width: element.scrollWidth,
       height: element.scrollHeight,
-      logging: false,
+      logging: true, // Enable logging to debug
       imageTimeout: 15000,
       removeContainer: true,
-      foreignObjectRendering: true, // Better text rendering
-      onClone: (clonedDoc) => {
-        // Ensure all fonts are loaded in the cloned document
+      foreignObjectRendering: true,
+      // Force specific font rendering
+      onclone: (clonedDoc) => {
         const clonedElement = clonedDoc.getElementById(elementId);
         if (clonedElement) {
+          // Ensure fonts are applied
           clonedElement.style.fontFamily = 'Arial, sans-serif';
+          clonedElement.style.fontSize = '14px';
+          clonedElement.style.lineHeight = '1.4';
         }
       }
     });
 
-    // Create PDF with proper A4 dimensions
+    console.log('Canvas dimensions:', canvas.width, canvas.height);
+
+    // Check if canvas has content
+    if (canvas.width === 0 || canvas.height === 0) {
+      throw new Error('Canvas has no dimensions. The element might be hidden or have no content.');
+    }
+
+    // Create PDF with A4 dimensions
     const imgData = canvas.toDataURL('image/png', 1.0);
     const pdf = new jsPDF({
       orientation: 'portrait',
