@@ -76,9 +76,9 @@ export const ClassicTemplate: React.FC<ClassicTemplateProps> = ({ data }) => {
       {data.skills.length > 0 && (
         <div className="mb-6">
           <h2 className="text-lg font-bold text-gray-900 mb-2 uppercase tracking-wide">Skills</h2>
-          <div className="flex flex-wrap gap-1">
+          <div className="text-gray-700">
             {data.skills.map((skill, index) => (
-              <span key={skill} className="inline-block text-gray-700">
+              <span key={skill}>
                 {skill}{index < data.skills.length - 1 && ', '}
               </span>
             ))}
@@ -96,10 +96,10 @@ export const ClassicTemplate: React.FC<ClassicTemplateProps> = ({ data }) => {
                 <h3 className="font-bold text-gray-900">{project.name}</h3>
                 {project.url && <p className="text-gray-600 text-sm italic">{project.url}</p>}
                 <p className="text-gray-700 mb-1">{project.description}</p>
-                <div className="flex flex-wrap gap-1">
-                  <span className="text-gray-600 text-sm font-semibold">Technologies: </span>
+                <div className="text-gray-600 text-sm">
+                  <span className="font-semibold">Technologies: </span>
                   {project.technologies.map((tech, index) => (
-                    <span key={tech} className="text-gray-600 text-sm">
+                    <span key={tech}>
                       {tech}{index < project.technologies.length - 1 && ', '}
                     </span>
                   ))}

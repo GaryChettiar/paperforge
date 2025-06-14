@@ -23,26 +23,26 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data, sideba
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                <span className="text-xs truncate">{data.personalInfo.email}</span>
+                <span className="text-xs">{data.personalInfo.email}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                <span className="text-xs truncate">{data.personalInfo.phone}</span>
+                <span className="text-xs">{data.personalInfo.phone}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4 flex-shrink-0" />
-                <span className="text-xs truncate">{data.personalInfo.location}</span>
+                <span className="text-xs">{data.personalInfo.location}</span>
               </div>
               {data.personalInfo.linkedin && (
                 <div className="flex items-center space-x-2">
                   <Linkedin className="w-4 h-4 flex-shrink-0" />
-                  <span className="text-xs truncate">{data.personalInfo.linkedin}</span>
+                  <span className="text-xs">{data.personalInfo.linkedin}</span>
                 </div>
               )}
               {data.personalInfo.website && (
                 <div className="flex items-center space-x-2">
                   <Globe className="w-4 h-4 flex-shrink-0" />
-                  <span className="text-xs truncate">{data.personalInfo.website}</span>
+                  <span className="text-xs">{data.personalInfo.website}</span>
                 </div>
               )}
             </div>
@@ -101,8 +101,8 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data, sideba
               <div className="space-y-4">
                 {data.experience.map((exp) => (
                   <div key={exp.id} className="relative pl-6">
-                    <div className="absolute left-0 top-2 w-3 h-3 rounded-full" style={{ backgroundColor: sidebarColor }}></div>
-                    <div className="absolute left-1.5 top-5 w-0.5 h-full" style={{ backgroundColor: '#f1f7ed' }}></div>
+                    <div className="absolute left-0 top-1 w-3 h-3 rounded-full" style={{ backgroundColor: sidebarColor }}></div>
+                    <div className="absolute left-1.5 top-4 w-0.5 h-full" style={{ backgroundColor: '#f1f7ed' }}></div>
                     <h3 className="font-bold text-gray-900">{exp.title}</h3>
                     <p className="font-medium" style={{ color: sidebarColor }}>{exp.company} • {exp.location}</p>
                     <p className="text-gray-500 text-xs mb-2">

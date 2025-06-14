@@ -94,9 +94,9 @@ export const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
           <h2 className="text-lg font-light text-gray-900 mb-4 pb-1 border-b border-gray-300">
             Skills
           </h2>
-          <div className="flex flex-wrap items-center gap-1">
+          <div className="text-gray-700">
             {data.skills.map((skill, index) => (
-              <span key={skill} className="text-gray-700">
+              <span key={skill}>
                 {skill}{index < data.skills.length - 1 && ' • '}
               </span>
             ))}
@@ -118,9 +118,9 @@ export const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
                   {project.url && <span className="text-gray-500 text-sm">{project.url}</span>}
                 </div>
                 <p className="text-gray-700 mb-2">{project.description}</p>
-                <div className="flex flex-wrap items-center gap-1">
+                <div className="text-gray-600 text-sm">
                   {project.technologies.map((tech, index) => (
-                    <span key={tech} className="text-gray-600 text-sm">
+                    <span key={tech}>
                       {tech}{index < project.technologies.length - 1 && ' • '}
                     </span>
                   ))}
