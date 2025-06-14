@@ -122,8 +122,21 @@ const Index = () => {
         description: "Please wait while we generate your PDF.",
       });
 
+      // Ensure preview is visible for export
+      const wasPreviewHidden = !showPreview;
+      if (wasPreviewHidden) {
+        setShowPreview(true);
+        // Wait for the component to render
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+
       const fileName = `${resumeData.personalInfo.fullName.replace(/\s+/g, '_')}_Resume.pdf`;
-      await exportToPDF(resumeData, selectedTemplate, fileName, creativeSidebarColor);
+      await exportToPDF('resume-preview', fileName);
+      
+      // Hide preview again if it was hidden before
+      if (wasPreviewHidden) {
+        setShowPreview(false);
+      }
       
       toast({
         title: "Success!",
