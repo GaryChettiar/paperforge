@@ -6,17 +6,17 @@ import { Link } from 'react-router-dom';
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-violet-100">
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-2">
-              <FileText className="w-8 h-8 text-blue-600" />
+              <FileText className="w-8 h-8 text-purple-600" />
               <h1 className="text-2xl font-bold text-gray-900">ResumeAI</h1>
             </div>
             <Link to="/builder">
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="bg-purple-600 hover:bg-purple-700">
                 Get Started
               </Button>
             </Link>
@@ -29,7 +29,7 @@ const Landing = () => {
         <div className="text-center">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             Create Your Perfect Resume with
-            <span className="text-blue-600"> AI Power</span>
+            <span className="text-purple-600"> AI Power</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Build professional resumes in minutes with our AI-powered editor. 
@@ -37,12 +37,12 @@ const Landing = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/builder">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-3">
+              <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-lg px-8 py-3">
                 <Sparkles className="w-5 h-5 mr-2" />
                 Start Building Now
               </Button>
             </Link>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-3">
+            <Button variant="outline" size="lg" className="text-lg px-8 py-3 border-purple-200 text-purple-700 hover:bg-purple-50">
               <Eye className="w-5 h-5 mr-2" />
               See Examples
             </Button>
@@ -63,8 +63,8 @@ const Landing = () => {
 
         <div className="grid md:grid-cols-3 gap-8">
           <div className="bg-white p-8 rounded-lg shadow-md text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Sparkles className="w-8 h-8 text-blue-600" />
+            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Sparkles className="w-8 h-8 text-purple-600" />
             </div>
             <h3 className="text-xl font-semibold mb-4">AI-Powered Suggestions</h3>
             <p className="text-gray-600">
@@ -73,8 +73,8 @@ const Landing = () => {
           </div>
 
           <div className="bg-white p-8 rounded-lg shadow-md text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FileText className="w-8 h-8 text-green-600" />
+            <div className="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FileText className="w-8 h-8 text-violet-600" />
             </div>
             <h3 className="text-xl font-semibold mb-4">Professional Templates</h3>
             <p className="text-gray-600">
@@ -83,8 +83,8 @@ const Landing = () => {
           </div>
 
           <div className="bg-white p-8 rounded-lg shadow-md text-center">
-            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Download className="w-8 h-8 text-purple-600" />
+            <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Download className="w-8 h-8 text-indigo-600" />
             </div>
             <h3 className="text-xl font-semibold mb-4">Export & Share</h3>
             <p className="text-gray-600">
@@ -95,7 +95,7 @@ const Landing = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-blue-600 py-16">
+      <section className="bg-purple-600 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 text-center text-white">
             <div>
@@ -103,21 +103,21 @@ const Landing = () => {
                 <Users className="w-8 h-8 mr-2" />
                 <span className="text-4xl font-bold">50K+</span>
               </div>
-              <p className="text-blue-100">Resumes Created</p>
+              <p className="text-purple-100">Resumes Created</p>
             </div>
             <div>
               <div className="flex items-center justify-center mb-2">
                 <Star className="w-8 h-8 mr-2" />
                 <span className="text-4xl font-bold">4.9</span>
               </div>
-              <p className="text-blue-100">Average Rating</p>
+              <p className="text-purple-100">Average Rating</p>
             </div>
             <div>
               <div className="flex items-center justify-center mb-2">
                 <FileText className="w-8 h-8 mr-2" />
                 <span className="text-4xl font-bold">95%</span>
               </div>
-              <p className="text-blue-100">Success Rate</p>
+              <p className="text-purple-100">Success Rate</p>
             </div>
           </div>
         </div>
@@ -132,7 +132,7 @@ const Landing = () => {
           Join thousands of job seekers who have successfully landed their dream jobs
         </p>
         <Link to="/builder">
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-12 py-4">
+          <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-lg px-12 py-4">
             <Sparkles className="w-5 h-5 mr-2" />
             Get Started for Free
           </Button>
@@ -143,7 +143,7 @@ const Landing = () => {
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <FileText className="w-6 h-6 text-blue-400" />
+            <FileText className="w-6 h-6 text-purple-400" />
             <span className="text-xl font-bold">ResumeAI</span>
           </div>
           <p className="text-gray-400">

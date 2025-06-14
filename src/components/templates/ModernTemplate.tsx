@@ -11,7 +11,7 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
   return (
     <div className="w-full max-w-4xl mx-auto bg-white p-8 text-sm leading-relaxed">
       {/* Header */}
-      <div className="border-b-4 border-blue-600 pb-6 mb-6">
+      <div className="border-b-4 border-purple-600 pb-6 mb-6">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">{data.personalInfo.fullName}</h1>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-gray-600">
           <div className="flex items-center space-x-2">
@@ -44,7 +44,7 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       {/* Summary */}
       {data.summary && (
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-blue-600 mb-3">Professional Summary</h2>
+          <h2 className="text-xl font-semibold text-purple-600 mb-3">Professional Summary</h2>
           <p className="text-gray-700">{data.summary}</p>
         </div>
       )}
@@ -52,12 +52,12 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       {/* Experience */}
       {data.experience.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-blue-600 mb-3">Work Experience</h2>
+          <h2 className="text-xl font-semibold text-purple-600 mb-3">Work Experience</h2>
           <div className="space-y-4">
             {data.experience.map((exp) => (
-              <div key={exp.id} className="border-l-2 border-blue-200 pl-4">
+              <div key={exp.id} className="border-l-2 border-purple-200 pl-4">
                 <h3 className="font-semibold text-gray-900">{exp.title}</h3>
-                <p className="text-blue-600 font-medium">{exp.company} • {exp.location}</p>
+                <p className="text-purple-600 font-medium">{exp.company} • {exp.location}</p>
                 <p className="text-gray-500 mb-2">
                   {exp.startDate} - {exp.current ? 'Present' : exp.endDate}
                 </p>
@@ -75,12 +75,12 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       {/* Education */}
       {data.education.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-blue-600 mb-3">Education</h2>
+          <h2 className="text-xl font-semibold text-purple-600 mb-3">Education</h2>
           <div className="space-y-3">
             {data.education.map((edu) => (
               <div key={edu.id}>
                 <h3 className="font-semibold text-gray-900">{edu.degree}</h3>
-                <p className="text-blue-600">{edu.school} • {edu.location}</p>
+                <p className="text-purple-600">{edu.school} • {edu.location}</p>
                 <p className="text-gray-500">
                   {edu.graduationDate} {edu.gpa && `• GPA: ${edu.gpa}`}
                 </p>
@@ -93,10 +93,10 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       {/* Skills */}
       {data.skills.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-blue-600 mb-3">Skills</h2>
+          <h2 className="text-xl font-semibold text-purple-600 mb-3">Skills</h2>
           <div className="flex flex-wrap gap-2">
             {data.skills.map((skill) => (
-              <span key={skill} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+              <span key={skill} className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
                 {skill}
               </span>
             ))}
@@ -107,12 +107,12 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       {/* Projects */}
       {data.projects.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-blue-600 mb-3">Projects</h2>
+          <h2 className="text-xl font-semibold text-purple-600 mb-3">Projects</h2>
           <div className="space-y-3">
             {data.projects.map((project) => (
               <div key={project.id}>
                 <h3 className="font-semibold text-gray-900">{project.name}</h3>
-                {project.url && <p className="text-blue-600 text-sm">{project.url}</p>}
+                {project.url && <p className="text-purple-600 text-sm">{project.url}</p>}
                 <p className="text-gray-700 mb-2">{project.description}</p>
                 <div className="flex flex-wrap gap-1">
                   {project.technologies.map((tech) => (

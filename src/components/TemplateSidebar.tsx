@@ -13,7 +13,7 @@ const templates = [
     id: 'modern',
     name: 'Modern',
     description: 'Clean and contemporary design',
-    preview: 'bg-gradient-to-br from-blue-50 to-indigo-100'
+    preview: 'bg-gradient-to-br from-purple-50 to-violet-100'
   },
   {
     id: 'classic',
@@ -25,13 +25,13 @@ const templates = [
     id: 'creative',
     name: 'Creative',
     description: 'Bold design for creative roles',
-    preview: 'bg-gradient-to-br from-purple-50 to-pink-100'
+    preview: 'bg-gradient-to-br from-pink-50 to-rose-100'
   },
   {
     id: 'minimal',
     name: 'Minimal',
     description: 'Simple and elegant layout',
-    preview: 'bg-gradient-to-br from-green-50 to-emerald-100'
+    preview: 'bg-gradient-to-br from-emerald-50 to-teal-100'
   }
 ];
 
@@ -49,7 +49,7 @@ export const TemplateSidebar: React.FC<TemplateSidebarProps> = ({
             key={template.id}
             className={`p-3 cursor-pointer transition-all hover:shadow-md ${
               selectedTemplate === template.id
-                ? 'ring-2 ring-blue-500 border-blue-200'
+                ? 'ring-2 ring-purple-500 border-purple-200'
                 : 'border-gray-200 hover:border-gray-300'
             }`}
             onClick={() => onTemplateSelect(template.id)}
@@ -57,7 +57,7 @@ export const TemplateSidebar: React.FC<TemplateSidebarProps> = ({
             <div className="relative">
               <div className={`w-full h-24 rounded-md ${template.preview} mb-2`}>
                 {selectedTemplate === template.id && (
-                  <div className="absolute top-2 right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                  <div className="absolute top-2 right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
                     <Check className="w-4 h-4 text-white" />
                   </div>
                 )}
