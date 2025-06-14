@@ -49,7 +49,7 @@ export const TemplateSidebar: React.FC<TemplateSidebarProps> = ({
             key={template.id}
             className={`p-3 cursor-pointer transition-all hover:shadow-md ${
               selectedTemplate === template.id
-                ? 'ring-2 ring-opacity-50'
+                ? 'ring-2 border-2'
                 : 'border-gray-200 hover:border-gray-300'
             }`}
             style={{
