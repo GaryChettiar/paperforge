@@ -34,7 +34,7 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({
 
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-2xl mx-auto">
-      <div className="transform scale-75 origin-top" id="resume-preview">
+      <div id="resume-preview" className="bg-white" style={{ width: '210mm', minHeight: '297mm' }}>
         {renderTemplate()}
       </div>
     </div>
