@@ -26,7 +26,7 @@ export class AIService {
           'X-Title': 'Resume Builder AI'
         },
         body: JSON.stringify({
-          model: 'deepseek/deepseek-r1-distill-llama-70b',
+          model: 'deepseek/deepseek-r1-0528:free',
           messages: [
             {
               role: 'system',

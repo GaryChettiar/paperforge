@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -72,54 +73,6 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
     }
   };
 
-  const generateAIResponse = (prompt: string, data: ResumeData) => {
-    // This is a simplified AI response generator
-    // In a real application, you would integrate with OpenAI, Claude, or another AI service
-    
-    if (prompt.toLowerCase().includes('ats') || prompt.toLowerCase().includes('applicant tracking')) {
-      return `Based on your resume, here are some ATS optimization suggestions:
-
-1. **Keywords**: Add more industry-specific keywords relevant to your target role
-2. **Formatting**: Use standard section headers like "Work Experience" and "Education"
-3. **Skills Section**: Include both hard and soft skills that match job descriptions
-4. **Quantify Achievements**: Add more specific numbers and metrics to your accomplishments
-
-Your current skills (${data.skills.join(', ')}) are a good start, but consider adding more technical keywords related to your field.`;
-    }
-    
-    if (prompt.toLowerCase().includes('job description') || prompt.toLowerCase().includes('experience')) {
-      return `Here are suggestions to improve your work experience descriptions:
-
-1. **Start with Action Verbs**: Use words like "Led," "Developed," "Implemented," "Optimized"
-2. **Quantify Results**: Add specific numbers, percentages, or dollar amounts
-3. **Show Impact**: Focus on what you accomplished, not just what you did
-4. **Use Industry Keywords**: Include relevant technical terms and skills
-
-For example, instead of "Worked on projects," try "Led cross-functional team of 5 developers to deliver 3 major projects, resulting in 40% performance improvement."`;
-    }
-    
-    if (prompt.toLowerCase().includes('summary') || prompt.toLowerCase().includes('professional')) {
-      return `Based on your background, here's an enhanced professional summary:
-
-"Results-driven ${data.experience[0]?.title || 'professional'} with ${data.experience.length}+ years of experience in ${data.skills.slice(0, 3).join(', ')}. Proven track record of ${data.experience[0]?.description[0] || 'delivering high-quality solutions'}. Expertise in ${data.skills.slice(0, 5).join(', ')} with a passion for innovation and continuous learning."
-
-This summary:
-- Highlights your experience level
-- Mentions key skills
-- Shows your value proposition
-- Uses industry-relevant keywords`;
-    }
-    
-    return `I'd be happy to help you improve your resume! Here are some general suggestions:
-
-1. **Content Review**: Your resume looks good overall. Consider adding more quantified achievements.
-2. **Skills Optimization**: Your skills list (${data.skills.slice(0, 3).join(', ')}) shows good technical breadth.
-3. **Experience Enhancement**: Focus on results and impact in your job descriptions.
-4. **Format Consistency**: Ensure consistent formatting throughout all sections.
-
-What specific aspect would you like me to focus on next?`;
-  };
-
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -129,7 +82,7 @@ What specific aspect would you like me to focus on next?`;
               <div className="flex items-center space-x-2">
                 <Sparkles className="w-5 h-5 text-blue-600" />
                 <span>AI Resume Assistant</span>
-                <span className="text-sm text-gray-500">(DeepSeek R1)</span>
+                <span className="text-sm text-gray-500">(DeepSeek R1 Free)</span>
               </div>
               <Button
                 variant="ghost"
