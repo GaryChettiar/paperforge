@@ -33,11 +33,13 @@ export const SummaryEditor: React.FC<SummaryEditorProps> = ({
     }
 
     try {
-      const prompt = `Based on my resume experience and skills, please write a compelling professional summary that would catch a recruiter's attention. Make it concise, impactful, and highlight key achievements.`;
+      const prompt = `Using only plain English sentences, write a succinct, professional, and highly impactful summary for a resume, based strictly on the following user's resume data. Do NOT use any markdown, bold, asterisks, or special formatting—just clean, formal text. Focus on unique strengths, expertise, and key achievements relevant to recruiters, suitable as a profile summary at the top of a modern resume.`;
       
       const optimizedSummary = await generateResponse(prompt, resumeData);
-      onChange(optimizedSummary);
-      
+      // Remove surrounding whitespace and replace any line breaks with spaces for neatness
+      const cleanedSummary = optimizedSummary.replace(/(\*{1,3}|_{1,3}|`{1,3}|~{1,3})/g, "").replace(/[\r\n]+/g, " ").trim();
+      onChange(cleanedSummary);
+
       toast({
         title: "Summary Optimized!",
         description: "Your professional summary has been enhanced with AI suggestions.",
