@@ -1,12 +1,190 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import { ResumeEditor } from '@/components/ResumeEditor';
+import { ResumePreview } from '@/components/ResumePreview';
+import { TemplateSidebar } from '@/components/TemplateSidebar';
+import { AIAssistant } from '@/components/AIAssistant';
+import { Header } from '@/components/Header';
+import { Button } from '@/components/ui/button';
+import { Download, Sparkles, Settings, Eye } from 'lucide-react';
+
+export interface ResumeData {
+  personalInfo: {
+    fullName: string;
+    email: string;
+    phone: string;
+    location: string;
+    linkedin: string;
+    website: string;
+  };
+  summary: string;
+  experience: Array<{
+    id: string;
+    title: string;
+    company: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+    current: boolean;
+    description: string[];
+  }>;
+  education: Array<{
+    id: string;
+    degree: string;
+    school: string;
+    location: string;
+    graduationDate: string;
+    gpa?: string;
+  }>;
+  skills: string[];
+  projects: Array<{
+    id: string;
+    name: string;
+    description: string;
+    technologies: string[];
+    url?: string;
+  }>;
+}
 
 const Index = () => {
+  const [resumeData, setResumeData] = useState<ResumeData>({
+    personalInfo: {
+      fullName: 'John Doe',
+      email: 'john.doe@email.com',
+      phone: '(555) 123-4567',
+      location: 'San Francisco, CA',
+      linkedin: 'linkedin.com/in/johndoe',
+      website: 'johndoe.dev'
+    },
+    summary: 'Experienced software engineer with 5+ years of expertise in full-stack development, specializing in React, Node.js, and cloud technologies. Passionate about creating scalable solutions and leading high-performing teams.',
+    experience: [
+      {
+        id: '1',
+        title: 'Senior Software Engineer',
+        company: 'Tech Corp',
+        location: 'San Francisco, CA',
+        startDate: '2022-01',
+        endDate: '',
+        current: true,
+        description: [
+          'Led development of microservices architecture serving 1M+ users',
+          'Improved application performance by 40% through optimization',
+          'Mentored 3 junior developers and established coding standards'
+        ]
+      }
+    ],
+    education: [
+      {
+        id: '1',
+        degree: 'Bachelor of Science in Computer Science',
+        school: 'University of California, Berkeley',
+        location: 'Berkeley, CA',
+        graduationDate: '2019-05',
+        gpa: '3.8'
+      }
+    ],
+    skills: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS', 'Docker', 'PostgreSQL'],
+    projects: [
+      {
+        id: '1',
+        name: 'E-commerce Platform',
+        description: 'Built a full-stack e-commerce platform with React, Node.js, and Stripe integration',
+        technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+        url: 'github.com/johndoe/ecommerce'
+      }
+    ]
+  });
+
+  const [selectedTemplate, setSelectedTemplate] = useState('modern');
+  const [showPreview, setShowPreview] = useState(false);
+  const [aiAssistantOpen, setAiAssistantOpen] = useState(false);
+
+  const handleExport = () => {
+    // Export functionality would be implemented here
+    console.log('Exporting resume...');
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      
+      <div className="flex h-[calc(100vh-64px)]">
+        {/* Template Sidebar */}
+        <TemplateSidebar 
+          selectedTemplate={selectedTemplate}
+          onTemplateSelect={setSelectedTemplate}
+        />
+
+        {/* Main Content */}
+        <div className="flex-1 flex">
+          {/* Editor Section */}
+          <div className={`transition-all duration-300 ${showPreview ? 'w-1/2' : 'flex-1'} bg-white border-r border-gray-200`}>
+            <div className="p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-gray-900">Resume Editor</h2>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setAiAssistantOpen(true)}
+                    className="flex items-center space-x-2"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    <span>AI Assistant</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowPreview(!showPreview)}
+                    className="flex items-center space-x-2"
+                  >
+                    <Eye className="w-4 h-4" />
+                    <span>{showPreview ? 'Hide Preview' : 'Show Preview'}</span>
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handleExport}
+                    className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Export PDF</span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex-1 overflow-auto">
+              <ResumeEditor 
+                resumeData={resumeData}
+                onResumeDataChange={setResumeData}
+              />
+            </div>
+          </div>
+
+          {/* Preview Section */}
+          {showPreview && (
+            <div className="w-1/2 bg-gray-100">
+              <div className="p-6 border-b border-gray-200 bg-white">
+                <h2 className="text-xl font-semibold text-gray-900">Preview</h2>
+              </div>
+              <div className="p-6 flex justify-center">
+                <ResumePreview 
+                  resumeData={resumeData}
+                  template={selectedTemplate}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* AI Assistant Modal */}
+      <AIAssistant 
+        isOpen={aiAssistantOpen}
+        onClose={() => setAiAssistantOpen(false)}
+        resumeData={resumeData}
+        onResumeDataChange={setResumeData}
+      />
     </div>
   );
 };
