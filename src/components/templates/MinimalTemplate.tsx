@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ResumeData } from '@/pages/Index';
 
@@ -12,22 +11,22 @@ export const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-light text-gray-900 mb-2">{data.personalInfo.fullName}</h1>
-        <div className="text-gray-600 text-sm flex flex-wrap items-center gap-1">
-          <span>{data.personalInfo.email}</span>
+        <div className="text-gray-600 text-sm flex flex-wrap items-baseline gap-1">
+          <span className="leading-tight">{data.personalInfo.email}</span>
           <span>•</span>
-          <span>{data.personalInfo.phone}</span>
+          <span className="leading-tight">{data.personalInfo.phone}</span>
           <span>•</span>
-          <span>{data.personalInfo.location}</span>
+          <span className="leading-tight">{data.personalInfo.location}</span>
           {data.personalInfo.linkedin && (
             <>
               <span>•</span>
-              <span>{data.personalInfo.linkedin}</span>
+              <span className="leading-tight">{data.personalInfo.linkedin}</span>
             </>
           )}
           {data.personalInfo.website && (
             <>
               <span>•</span>
-              <span>{data.personalInfo.website}</span>
+              <span className="leading-tight">{data.personalInfo.website}</span>
             </>
           )}
         </div>
@@ -94,7 +93,7 @@ export const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
           <h2 className="text-lg font-light text-gray-900 mb-4 pb-1 border-b border-gray-300">
             Skills
           </h2>
-          <div className="text-gray-700">
+          <div className="text-gray-700 leading-tight">
             {data.skills.map((skill, index) => (
               <span key={skill}>
                 {skill}{index < data.skills.length - 1 && ' • '}
@@ -118,7 +117,7 @@ export const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
                   {project.url && <span className="text-gray-500 text-sm">{project.url}</span>}
                 </div>
                 <p className="text-gray-700 mb-2">{project.description}</p>
-                <div className="text-gray-600 text-sm">
+                <div className="text-gray-600 text-sm leading-tight">
                   {project.technologies.map((tech, index) => (
                     <span key={tech}>
                       {tech}{index < project.technologies.length - 1 && ' • '}

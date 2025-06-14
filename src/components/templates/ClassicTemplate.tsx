@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ResumeData } from '@/pages/Index';
 
@@ -13,10 +12,10 @@ export const ClassicTemplate: React.FC<ClassicTemplateProps> = ({ data }) => {
       <div className="text-center border-b-2 border-gray-800 pb-4 mb-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">{data.personalInfo.fullName}</h1>
         <div className="text-gray-600 space-y-1">
-          <p>{data.personalInfo.email} • {data.personalInfo.phone}</p>
-          <p>{data.personalInfo.location}</p>
-          {data.personalInfo.linkedin && <p>{data.personalInfo.linkedin}</p>}
-          {data.personalInfo.website && <p>{data.personalInfo.website}</p>}
+          <p className="leading-tight">{data.personalInfo.email} • {data.personalInfo.phone}</p>
+          <p className="leading-tight">{data.personalInfo.location}</p>
+          {data.personalInfo.linkedin && <p className="leading-tight">{data.personalInfo.linkedin}</p>}
+          {data.personalInfo.website && <p className="leading-tight">{data.personalInfo.website}</p>}
         </div>
       </div>
 
@@ -76,7 +75,7 @@ export const ClassicTemplate: React.FC<ClassicTemplateProps> = ({ data }) => {
       {data.skills.length > 0 && (
         <div className="mb-6">
           <h2 className="text-lg font-bold text-gray-900 mb-2 uppercase tracking-wide">Skills</h2>
-          <div className="text-gray-700">
+          <div className="text-gray-700 leading-tight">
             {data.skills.map((skill, index) => (
               <span key={skill}>
                 {skill}{index < data.skills.length - 1 && ', '}
@@ -96,7 +95,7 @@ export const ClassicTemplate: React.FC<ClassicTemplateProps> = ({ data }) => {
                 <h3 className="font-bold text-gray-900">{project.name}</h3>
                 {project.url && <p className="text-gray-600 text-sm italic">{project.url}</p>}
                 <p className="text-gray-700 mb-1">{project.description}</p>
-                <div className="text-gray-600 text-sm">
+                <div className="text-gray-600 text-sm leading-tight">
                   <span className="font-semibold">Technologies: </span>
                   {project.technologies.map((tech, index) => (
                     <span key={tech}>

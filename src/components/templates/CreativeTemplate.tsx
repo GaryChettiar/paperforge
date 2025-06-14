@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ResumeData } from '@/pages/Index';
 import { Mail, Phone, MapPin, Globe, Linkedin } from 'lucide-react';
@@ -21,28 +20,28 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data, sideba
           <div className="mb-6">
             <h1 className="text-2xl font-bold mb-2">{data.personalInfo.fullName}</h1>
             <div className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4 flex-shrink-0" />
-                <span className="text-xs">{data.personalInfo.email}</span>
+              <div className="flex items-baseline space-x-2">
+                <Mail className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                <span className="text-xs leading-tight">{data.personalInfo.email}</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4 flex-shrink-0" />
-                <span className="text-xs">{data.personalInfo.phone}</span>
+              <div className="flex items-baseline space-x-2">
+                <Phone className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                <span className="text-xs leading-tight">{data.personalInfo.phone}</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4 flex-shrink-0" />
-                <span className="text-xs">{data.personalInfo.location}</span>
+              <div className="flex items-baseline space-x-2">
+                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                <span className="text-xs leading-tight">{data.personalInfo.location}</span>
               </div>
               {data.personalInfo.linkedin && (
-                <div className="flex items-center space-x-2">
-                  <Linkedin className="w-4 h-4 flex-shrink-0" />
-                  <span className="text-xs">{data.personalInfo.linkedin}</span>
+                <div className="flex items-baseline space-x-2">
+                  <Linkedin className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  <span className="text-xs leading-tight">{data.personalInfo.linkedin}</span>
                 </div>
               )}
               {data.personalInfo.website && (
-                <div className="flex items-center space-x-2">
-                  <Globe className="w-4 h-4 flex-shrink-0" />
-                  <span className="text-xs">{data.personalInfo.website}</span>
+                <div className="flex items-baseline space-x-2">
+                  <Globe className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  <span className="text-xs leading-tight">{data.personalInfo.website}</span>
                 </div>
               )}
             </div>
@@ -135,7 +134,7 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data, sideba
                       {project.technologies.map((tech) => (
                         <span 
                           key={tech} 
-                          className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium" 
+                          className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium leading-tight" 
                           style={{ backgroundColor: lighterColor, color: sidebarColor }}
                         >
                           {tech}

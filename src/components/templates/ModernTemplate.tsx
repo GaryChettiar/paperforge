@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ResumeData } from '@/pages/Index';
 import { Mail, Phone, MapPin, Globe, Linkedin } from 'lucide-react';
@@ -14,28 +13,28 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       <div className="pb-6 mb-6" style={{ borderBottom: `4px solid #243e36` }}>
         <h1 className="text-3xl font-bold mb-2" style={{ color: '#243e36' }}>{data.personalInfo.fullName}</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-gray-600">
-          <div className="flex items-center space-x-2">
-            <Mail className="w-4 h-4 flex-shrink-0" />
-            <span className="truncate">{data.personalInfo.email}</span>
+          <div className="flex items-baseline space-x-2">
+            <Mail className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <span className="truncate leading-tight">{data.personalInfo.email}</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <Phone className="w-4 h-4 flex-shrink-0" />
-            <span className="truncate">{data.personalInfo.phone}</span>
+          <div className="flex items-baseline space-x-2">
+            <Phone className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <span className="truncate leading-tight">{data.personalInfo.phone}</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <MapPin className="w-4 h-4 flex-shrink-0" />
-            <span className="truncate">{data.personalInfo.location}</span>
+          <div className="flex items-baseline space-x-2">
+            <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <span className="truncate leading-tight">{data.personalInfo.location}</span>
           </div>
           {data.personalInfo.linkedin && (
-            <div className="flex items-center space-x-2">
-              <Linkedin className="w-4 h-4 flex-shrink-0" />
-              <span className="truncate">{data.personalInfo.linkedin}</span>
+            <div className="flex items-baseline space-x-2">
+              <Linkedin className="w-4 h-4 flex-shrink-0 mt-0.5" />
+              <span className="truncate leading-tight">{data.personalInfo.linkedin}</span>
             </div>
           )}
           {data.personalInfo.website && (
-            <div className="flex items-center space-x-2">
-              <Globe className="w-4 h-4 flex-shrink-0" />
-              <span className="truncate">{data.personalInfo.website}</span>
+            <div className="flex items-baseline space-x-2">
+              <Globe className="w-4 h-4 flex-shrink-0 mt-0.5" />
+              <span className="truncate leading-tight">{data.personalInfo.website}</span>
             </div>
           )}
         </div>
@@ -98,7 +97,7 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
             {data.skills.map((skill) => (
               <span 
                 key={skill} 
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium" 
+                className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium leading-tight" 
                 style={{ backgroundColor: '#f1f7ed', color: '#243e36' }}
               >
                 {skill}
@@ -122,7 +121,7 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
                   {project.technologies.map((tech) => (
                     <span 
                       key={tech} 
-                      className="inline-flex items-center bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium"
+                      className="inline-flex items-center bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium leading-tight"
                     >
                       {tech}
                     </span>
