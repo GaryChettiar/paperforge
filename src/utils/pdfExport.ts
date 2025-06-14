@@ -6,8 +6,11 @@ export const exportToPDF = async (elementId: string, filename: string = 'resume.
   try {
     const element = document.getElementById(elementId);
     if (!element) {
-      throw new Error('Element not found');
+      throw new Error(`Element with ID "${elementId}" not found. Make sure the resume preview is visible.`);
     }
+
+    // Wait a bit for any animations to finish
+    await new Promise(resolve => setTimeout(resolve, 100));
 
     // Create canvas from the element
     const canvas = await html2canvas(element, {
@@ -16,7 +19,8 @@ export const exportToPDF = async (elementId: string, filename: string = 'resume.
       allowTaint: true,
       backgroundColor: '#ffffff',
       width: element.scrollWidth,
-      height: element.scrollHeight
+      height: element.scrollHeight,
+      logging: false
     });
 
     // Create PDF
