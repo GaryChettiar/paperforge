@@ -19,7 +19,7 @@ export const SummaryEditor: React.FC<SummaryEditorProps> = ({
   onChange,
   resumeData
 }) => {
-  const { generateResponse, isLoading, hasApiKey } = useAIService();
+  const { generateResponse, isLoading } = useAIService(); // Don't need hasApiKey
   const { toast } = useToast();
 
   // Util: remove any generic intro/outro lines from AI output
@@ -57,15 +57,6 @@ export const SummaryEditor: React.FC<SummaryEditorProps> = ({
   }
 
   const handleAIOptimize = async () => {
-    if (!hasApiKey) {
-      toast({
-        title: "API Key Required",
-        description: "Please set your OpenRouter API key in the AI Assistant to use this feature.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     try {
       const prompt = `Using only plain English sentences, write a succinct, professional, and highly impactful summary for a resume, based strictly on the following user's resume data. Do NOT use any markdown, bold, asterisks, or special formatting—just clean, formal text. Focus on unique strengths, expertise, and key achievements relevant to recruiters, suitable as a profile summary at the top of a modern resume.`;
 

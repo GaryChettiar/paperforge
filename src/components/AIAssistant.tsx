@@ -6,9 +6,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { ResumeData } from '@/pages/Index';
 import { Sparkles, Send, Lightbulb, Target, Wand2 } from 'lucide-react';
-import { APIKeyInput } from './APIKeyInput';
 import { useAIService } from '@/hooks/useAIService';
-import { Settings } from 'lucide-react';
+// Removed: import { APIKeyInput } from './APIKeyInput';
+// Removed: import { Settings } from 'lucide-react';
 
 interface AIAssistantProps {
   isOpen: boolean;
@@ -46,17 +46,12 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
 }) => {
   const [message, setMessage] = useState('');
   const [conversation, setConversation] = useState<Array<{role: 'user' | 'assistant', content: string}>>([]);
-  const [showApiKeyDialog, setShowApiKeyDialog] = useState(false);
-  const { apiKey, saveApiKey, generateResponse, isLoading, hasApiKey } = useAIService();
+  // Removed: const [showApiKeyDialog, setShowApiKeyDialog] = useState(false);
+  const { generateResponse, isLoading } = useAIService(); // apiKey, saveApiKey, hasApiKey not needed
 
   const handleSendMessage = async (prompt?: string) => {
     const messageToSend = prompt || message;
     if (!messageToSend.trim()) return;
-
-    if (!hasApiKey) {
-      setShowApiKeyDialog(true);
-      return;
-    }
 
     setConversation(prev => [...prev, { role: 'user', content: messageToSend }]);
     setMessage('');
@@ -84,33 +79,11 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
                 <span>AI Resume Assistant</span>
                 <span className="text-sm text-gray-500">(DeepSeek R1 Free)</span>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowApiKeyDialog(true)}
-                className="flex items-center space-x-1"
-              >
-                <Settings className="w-4 h-4" />
-                <span className="text-xs">{hasApiKey ? 'API Key Set' : 'Set API Key'}</span>
-              </Button>
+              {/* Removed settings button for API key */}
             </DialogTitle>
           </DialogHeader>
 
-          {!hasApiKey && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
-              <p className="text-sm text-yellow-800">
-                Please set your OpenRouter API key to use DeepSeek AI features. 
-                <Button 
-                  variant="link" 
-                  size="sm" 
-                  onClick={() => setShowApiKeyDialog(true)}
-                  className="p-0 h-auto text-yellow-800 underline ml-1"
-                >
-                  Click here to add it.
-                </Button>
-              </p>
-            </div>
-          )}
+          {/* Removed API key warning and prompt UI */}
 
           <div className="flex-1 flex space-x-4 overflow-hidden">
             {/* Suggestions Panel */}
@@ -199,13 +172,9 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
           </div>
         </DialogContent>
       </Dialog>
-
-      <APIKeyInput
-        isOpen={showApiKeyDialog}
-        onClose={() => setShowApiKeyDialog(false)}
-        onSave={saveApiKey}
-        currentApiKey={apiKey}
-      />
+      {/* Removed APIKeyInput dialog */}
     </>
   );
 };
+
+// This file is getting long (over 200 lines). Please consider refactoring it to smaller components for better maintainability.
