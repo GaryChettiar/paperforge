@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { ModernPDFTemplate } from '@/components/pdf-templates/ModernPDFTemplate';
 import { ClassicPDFTemplate } from '@/components/pdf-templates/ClassicPDFTemplate';
@@ -16,7 +17,7 @@ export const exportToPDF = async (
     console.log('Starting PDF export with template:', template);
 
     // Select the appropriate PDF template
-    let PDFComponent;
+    let PDFComponent: React.ComponentType<any>;
     let props: any = { data: resumeData };
 
     switch (template) {
@@ -38,7 +39,7 @@ export const exportToPDF = async (
     }
 
     // Generate PDF document
-    const doc = <PDFComponent {...props} />;
+    const doc = React.createElement(PDFComponent, props);
     const pdfBlob = await pdf(doc).toBlob();
     
     // Create download link
