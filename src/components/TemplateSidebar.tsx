@@ -13,7 +13,7 @@ const templates = [
     id: 'modern',
     name: 'Modern',
     description: 'Clean and contemporary design',
-    preview: 'bg-gradient-to-br from-purple-50 to-violet-100'
+    preview: 'bg-gradient-to-br from-blue-50 to-blue-100'
   },
   {
     id: 'classic',
@@ -25,7 +25,7 @@ const templates = [
     id: 'creative',
     name: 'Creative',
     description: 'Bold design for creative roles',
-    preview: 'bg-gradient-to-br from-pink-50 to-rose-100'
+    preview: 'bg-gradient-to-br from-yellow-50 to-yellow-100'
   },
   {
     id: 'minimal',
@@ -41,7 +41,7 @@ export const TemplateSidebar: React.FC<TemplateSidebarProps> = ({
 }) => {
   return (
     <div className="w-64 bg-white border-r border-gray-200 p-4">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Templates</h3>
+      <h3 className="text-lg font-semibold mb-4" style={{ color: '#0d3b66' }}>Templates</h3>
       
       <div className="space-y-3">
         {templates.map((template) => (
@@ -49,20 +49,24 @@ export const TemplateSidebar: React.FC<TemplateSidebarProps> = ({
             key={template.id}
             className={`p-3 cursor-pointer transition-all hover:shadow-md ${
               selectedTemplate === template.id
-                ? 'ring-2 ring-purple-500 border-purple-200'
+                ? 'ring-2 border-opacity-50'
                 : 'border-gray-200 hover:border-gray-300'
             }`}
+            style={{
+              ringColor: selectedTemplate === template.id ? '#0d3b66' : undefined,
+              borderColor: selectedTemplate === template.id ? '#0d3b66' : undefined,
+            }}
             onClick={() => onTemplateSelect(template.id)}
           >
             <div className="relative">
               <div className={`w-full h-24 rounded-md ${template.preview} mb-2`}>
                 {selectedTemplate === template.id && (
-                  <div className="absolute top-2 right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
+                  <div className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: '#0d3b66' }}>
                     <Check className="w-4 h-4 text-white" />
                   </div>
                 )}
               </div>
-              <h4 className="font-medium text-gray-900">{template.name}</h4>
+              <h4 className="font-medium" style={{ color: '#0d3b66' }}>{template.name}</h4>
               <p className="text-xs text-gray-500 mt-1">{template.description}</p>
             </div>
           </Card>

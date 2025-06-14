@@ -9,8 +9,8 @@ export const Header = () => {
     <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4">
         <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-          <FileText className="w-8 h-8 text-purple-600" />
-          <h1 className="text-xl font-bold text-gray-900">ResumeAI</h1>
+          <FileText className="w-8 h-8" style={{ color: '#0d3b66' }} />
+          <h1 className="text-xl font-bold" style={{ color: '#0d3b66' }}>ResumeAI</h1>
         </Link>
         <div className="text-sm text-gray-500">
           Auto-saved 2 minutes ago
@@ -24,15 +24,15 @@ export const Header = () => {
             <span>Home</span>
           </Button>
         </Link>
-        <Button variant="ghost" size="sm" className="flex items-center space-x-2 hover:bg-purple-50 hover:text-purple-600">
+        <Button variant="ghost" size="sm" className="flex items-center space-x-2 hover:bg-opacity-10" style={{ color: '#0d3b66' }}>
           <Save className="w-4 h-4" />
           <span>Save</span>
         </Button>
-        <Button variant="ghost" size="sm" className="flex items-center space-x-2 hover:bg-purple-50 hover:text-purple-600">
+        <Button variant="ghost" size="sm" className="flex items-center space-x-2 hover:bg-opacity-10" style={{ color: '#0d3b66' }}>
           <Share2 className="w-4 h-4" />
           <span>Share</span>
         </Button>
-        <Button variant="ghost" size="sm" className="w-8 h-8 p-0 rounded-full hover:bg-purple-50">
+        <Button variant="ghost" size="sm" className="w-8 h-8 p-0 rounded-full hover:bg-opacity-10" style={{ color: '#0d3b66' }}>
           <User className="w-4 h-4" />
         </Button>
       </div>

@@ -105,7 +105,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#faf0ca' }}>
       <Header />
       
       <div className="flex h-[calc(100vh-64px)]">
@@ -121,13 +121,14 @@ const Index = () => {
           <div className={`transition-all duration-300 ${showPreview ? 'w-1/2' : 'flex-1'} bg-white border-r border-gray-200`}>
             <div className="p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-gray-900">Resume Editor</h2>
+                <h2 className="text-xl font-semibold" style={{ color: '#0d3b66' }}>Resume Editor</h2>
                 <div className="flex items-center space-x-2">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setAiAssistantOpen(true)}
                     className="flex items-center space-x-2"
+                    style={{ borderColor: '#0d3b66', color: '#0d3b66' }}
                   >
                     <Sparkles className="w-4 h-4" />
                     <span>AI Assistant</span>
@@ -137,6 +138,7 @@ const Index = () => {
                     size="sm"
                     onClick={() => setShowPreview(!showPreview)}
                     className="flex items-center space-x-2"
+                    style={{ borderColor: '#0d3b66', color: '#0d3b66' }}
                   >
                     <Eye className="w-4 h-4" />
                     <span>{showPreview ? 'Hide Preview' : 'Show Preview'}</span>
@@ -144,7 +146,8 @@ const Index = () => {
                   <Button
                     size="sm"
                     onClick={handleExport}
-                    className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700"
+                    className="flex items-center space-x-2 text-white"
+                    style={{ backgroundColor: '#0d3b66' }}
                   >
                     <Download className="w-4 h-4" />
                     <span>Export PDF</span>
@@ -165,7 +168,7 @@ const Index = () => {
           {showPreview && (
             <div className="w-1/2 bg-gray-100">
               <div className="p-6 border-b border-gray-200 bg-white">
-                <h2 className="text-xl font-semibold text-gray-900">Preview</h2>
+                <h2 className="text-xl font-semibold" style={{ color: '#0d3b66' }}>Preview</h2>
               </div>
               <div className="p-6 flex justify-center">
                 <ResumePreview 
