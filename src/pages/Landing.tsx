@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText, Sparkles, Download, Eye, Users, Star } from 'lucide-react';
@@ -42,10 +41,12 @@ const Landing = () => {
                 Start Building Now
               </Button>
             </Link>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-3 hover:bg-opacity-50" style={{ borderColor: '#243e36', color: '#243e36', backgroundColor: 'transparent' }}>
-              <Eye className="w-5 h-5 mr-2" />
-              See Examples
-            </Button>
+            <Link to="/templates">
+              <Button variant="outline" size="lg" className="text-lg px-8 py-3 hover:bg-opacity-50" style={{ borderColor: '#243e36', color: '#243e36', backgroundColor: 'transparent' }}>
+                <Eye className="w-5 h-5 mr-2" />
+                See Examples
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
