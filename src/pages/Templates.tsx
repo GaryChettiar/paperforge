@@ -1,14 +1,14 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft, Eye } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ResumePreview } from '@/components/ResumePreview';
 import { ResumeData } from '@/pages/Index';
 
 const Templates = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const templates = [
     {
@@ -40,6 +40,10 @@ const Templates = () => {
       color: '#059669'
     }
   ];
+
+  const handleUseTemplate = (templateId: string) => {
+    navigate(`/builder?template=${templateId}`);
+  };
 
   // Sample resume data for preview
   const sampleResumeData: ResumeData = {
@@ -146,11 +150,13 @@ const Templates = () => {
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back to Templates</span>
               </Button>
-              <Link to="/builder">
-                <Button className="text-white" style={{ backgroundColor: '#243e36' }}>
-                  Use This Template
-                </Button>
-              </Link>
+              <Button 
+                className="text-white" 
+                style={{ backgroundColor: '#243e36' }}
+                onClick={() => handleUseTemplate(selectedTemplate)}
+              >
+                Use This Template
+              </Button>
             </div>
             
             <div className="bg-white rounded-lg shadow-lg p-8">
@@ -202,15 +208,14 @@ const Templates = () => {
                       <Eye className="w-4 h-4" />
                       <span>Preview</span>
                     </Button>
-                    <Link to="/builder" className="flex-1">
-                      <Button 
-                        size="sm" 
-                        className="w-full text-white"
-                        style={{ backgroundColor: template.color }}
-                      >
-                        Use Template
-                      </Button>
-                    </Link>
+                    <Button 
+                      size="sm" 
+                      className="flex-1 text-white"
+                      style={{ backgroundColor: template.color }}
+                      onClick={() => handleUseTemplate(template.id)}
+                    >
+                      Use Template
+                    </Button>
                   </div>
                 </div>
               </Card>

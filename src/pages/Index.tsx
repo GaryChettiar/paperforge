@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ResumeEditor } from '@/components/ResumeEditor';
 import { ResumePreview } from '@/components/ResumePreview';
 import { TemplateSidebar } from '@/components/TemplateSidebar';
@@ -47,6 +48,8 @@ export interface ResumeData {
 }
 
 const Index = () => {
+  const [searchParams] = useSearchParams();
+  
   const [resumeData, setResumeData] = useState<ResumeData>({
     personalInfo: {
       fullName: 'John Doe',
@@ -99,6 +102,14 @@ const Index = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [aiAssistantOpen, setAiAssistantOpen] = useState(false);
   const [showMobileTemplates, setShowMobileTemplates] = useState(false);
+
+  // Check for template parameter in URL and set it as selected template
+  useEffect(() => {
+    const templateParam = searchParams.get('template');
+    if (templateParam && ['modern', 'classic', 'creative', 'minimal'].includes(templateParam)) {
+      setSelectedTemplate(templateParam);
+    }
+  }, [searchParams]);
 
   const handleExport = () => {
     // Export functionality would be implemented here
