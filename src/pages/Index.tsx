@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ResumeEditor } from '@/components/ResumeEditor';
@@ -99,6 +100,7 @@ const Index = () => {
   });
 
   const [selectedTemplate, setSelectedTemplate] = useState('modern');
+  const [creativeSidebarColor, setCreativeSidebarColor] = useState('#243e36');
   const [showPreview, setShowPreview] = useState(false);
   const [aiAssistantOpen, setAiAssistantOpen] = useState(false);
   const [showMobileTemplates, setShowMobileTemplates] = useState(false);
@@ -141,6 +143,8 @@ const Index = () => {
                   setSelectedTemplate(template);
                   setShowMobileTemplates(false);
                 }}
+                creativeSidebarColor={creativeSidebarColor}
+                onCreativeSidebarColorChange={setCreativeSidebarColor}
               />
             </SheetContent>
           </Sheet>
@@ -151,6 +155,8 @@ const Index = () => {
           <TemplateSidebar 
             selectedTemplate={selectedTemplate}
             onTemplateSelect={setSelectedTemplate}
+            creativeSidebarColor={creativeSidebarColor}
+            onCreativeSidebarColorChange={setCreativeSidebarColor}
           />
         </div>
 
@@ -217,6 +223,7 @@ const Index = () => {
                   <ResumePreview 
                     resumeData={resumeData}
                     template={selectedTemplate}
+                    creativeSidebarColor={creativeSidebarColor}
                   />
                 </div>
               </div>
