@@ -9,24 +9,31 @@ export const exportToPDF = async (elementId: string, filename: string = 'resume.
       throw new Error(`Element with ID "${elementId}" not found. Make sure the resume preview is visible.`);
     }
 
-    // Wait a bit for any animations to finish and fonts to load
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // Wait for fonts to load and any animations to finish
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Create canvas from the element with higher quality settings
+    // Create canvas from the element with optimal settings for text rendering
     const canvas = await html2canvas(element, {
-      scale: 3, // Higher scale for better quality
+      scale: 2, // Good balance between quality and performance
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
       width: element.scrollWidth,
       height: element.scrollHeight,
       logging: false,
-      letterRendering: true,
       imageTimeout: 15000,
-      removeContainer: true
+      removeContainer: true,
+      foreignObjectRendering: true, // Better text rendering
+      onClone: (clonedDoc) => {
+        // Ensure all fonts are loaded in the cloned document
+        const clonedElement = clonedDoc.getElementById(elementId);
+        if (clonedElement) {
+          clonedElement.style.fontFamily = 'Arial, sans-serif';
+        }
+      }
     });
 
-    // Create PDF with proper dimensions
+    // Create PDF with proper A4 dimensions
     const imgData = canvas.toDataURL('image/png', 1.0);
     const pdf = new jsPDF({
       orientation: 'portrait',
