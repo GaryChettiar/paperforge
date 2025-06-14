@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ResumeEditor } from '@/components/ResumeEditor';
 import { ResumePreview } from '@/components/ResumePreview';
@@ -6,7 +5,8 @@ import { TemplateSidebar } from '@/components/TemplateSidebar';
 import { AIAssistant } from '@/components/AIAssistant';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
-import { Download, Sparkles, Settings, Eye } from 'lucide-react';
+import { Download, Sparkles, Eye, Menu } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 export interface ResumeData {
   personalInfo: {
@@ -98,6 +98,7 @@ const Index = () => {
   const [selectedTemplate, setSelectedTemplate] = useState('modern');
   const [showPreview, setShowPreview] = useState(false);
   const [aiAssistantOpen, setAiAssistantOpen] = useState(false);
+  const [showMobileTemplates, setShowMobileTemplates] = useState(false);
 
   const handleExport = () => {
     // Export functionality would be implemented here
@@ -108,21 +109,48 @@ const Index = () => {
     <div className="min-h-screen" style={{ backgroundColor: '#f1f7ed' }}>
       <Header />
       
-      <div className="flex h-[calc(100vh-64px)]">
-        {/* Template Sidebar */}
-        <TemplateSidebar 
-          selectedTemplate={selectedTemplate}
-          onTemplateSelect={setSelectedTemplate}
-        />
+      <div className="flex flex-col md:flex-row h-[calc(100vh-64px)]">
+        {/* Mobile Template Sidebar */}
+        <div className="block md:hidden">
+          <Sheet open={showMobileTemplates} onOpenChange={setShowMobileTemplates}>
+            <SheetTrigger asChild>
+              <Button 
+                variant="outline" 
+                className="m-4 flex items-center space-x-2"
+                style={{ borderColor: '#243e36', color: '#243e36' }}
+              >
+                <Menu className="w-4 h-4" />
+                <span>Templates</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="p-0 w-80">
+              <TemplateSidebar 
+                selectedTemplate={selectedTemplate}
+                onTemplateSelect={(template) => {
+                  setSelectedTemplate(template);
+                  setShowMobileTemplates(false);
+                }}
+              />
+            </SheetContent>
+          </Sheet>
+        </div>
+
+        {/* Desktop Template Sidebar */}
+        <div className="hidden md:block">
+          <TemplateSidebar 
+            selectedTemplate={selectedTemplate}
+            onTemplateSelect={setSelectedTemplate}
+          />
+        </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex">
+        <div className="flex-1 flex flex-col lg:flex-row">
           {/* Editor Section */}
-          <div className={`transition-all duration-300 ${showPreview ? 'w-1/2' : 'flex-1'} bg-white border-r border-gray-200`}>
-            <div className="p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
-              <div className="flex items-center justify-between">
+          <div className={`transition-all duration-300 ${showPreview ? 'lg:w-1/2' : 'flex-1'} bg-white border-b lg:border-b-0 lg:border-r border-gray-200`}>
+            <div className="p-4 lg:p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
                 <h2 className="text-xl font-semibold" style={{ color: '#243e36' }}>Resume Editor</h2>
-                <div className="flex items-center space-x-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Button
                     variant="outline"
                     size="sm"
@@ -131,7 +159,8 @@ const Index = () => {
                     style={{ borderColor: '#243e36', color: '#243e36' }}
                   >
                     <Sparkles className="w-4 h-4" />
-                    <span>AI Assistant</span>
+                    <span className="hidden sm:inline">AI Assistant</span>
+                    <span className="sm:hidden">AI</span>
                   </Button>
                   <Button
                     variant="outline"
@@ -141,7 +170,8 @@ const Index = () => {
                     style={{ borderColor: '#243e36', color: '#243e36' }}
                   >
                     <Eye className="w-4 h-4" />
-                    <span>{showPreview ? 'Hide Preview' : 'Show Preview'}</span>
+                    <span className="hidden sm:inline">{showPreview ? 'Hide Preview' : 'Show Preview'}</span>
+                    <span className="sm:hidden">Preview</span>
                   </Button>
                   <Button
                     size="sm"
@@ -150,7 +180,8 @@ const Index = () => {
                     style={{ backgroundColor: '#243e36' }}
                   >
                     <Download className="w-4 h-4" />
-                    <span>Export PDF</span>
+                    <span className="hidden sm:inline">Export PDF</span>
+                    <span className="sm:hidden">Export</span>
                   </Button>
                 </div>
               </div>
@@ -166,15 +197,17 @@ const Index = () => {
 
           {/* Preview Section */}
           {showPreview && (
-            <div className="w-1/2 bg-gray-100">
-              <div className="p-6 border-b border-gray-200 bg-white">
+            <div className="lg:w-1/2 bg-gray-100 min-h-[50vh] lg:min-h-full">
+              <div className="p-4 lg:p-6 border-b border-gray-200 bg-white">
                 <h2 className="text-xl font-semibold" style={{ color: '#243e36' }}>Preview</h2>
               </div>
-              <div className="p-6 flex justify-center">
-                <ResumePreview 
-                  resumeData={resumeData}
-                  template={selectedTemplate}
-                />
+              <div className="p-4 lg:p-6 flex justify-center overflow-auto">
+                <div className="transform scale-50 sm:scale-75 lg:scale-100 origin-top">
+                  <ResumePreview 
+                    resumeData={resumeData}
+                    template={selectedTemplate}
+                  />
+                </div>
               </div>
             </div>
           )}

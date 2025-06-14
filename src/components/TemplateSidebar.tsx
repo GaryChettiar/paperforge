@@ -40,10 +40,10 @@ export const TemplateSidebar: React.FC<TemplateSidebarProps> = ({
   onTemplateSelect
 }) => {
   return (
-    <div className="w-64 bg-white border-r border-gray-200 p-4">
+    <div className="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-gray-200 p-4">
       <h3 className="text-lg font-semibold mb-4" style={{ color: '#243e36' }}>Templates</h3>
       
-      <div className="space-y-3">
+      <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
         {templates.map((template) => (
           <Card
             key={template.id}
@@ -53,21 +53,20 @@ export const TemplateSidebar: React.FC<TemplateSidebarProps> = ({
                 : 'border-gray-200 hover:border-gray-300'
             }`}
             style={{
-              ringColor: selectedTemplate === template.id ? '#243e36' : undefined,
               borderColor: selectedTemplate === template.id ? '#243e36' : undefined,
             }}
             onClick={() => onTemplateSelect(template.id)}
           >
             <div className="relative">
-              <div className={`w-full h-24 rounded-md ${template.preview} mb-2`}>
+              <div className={`w-full h-16 md:h-24 rounded-md ${template.preview} mb-2`}>
                 {selectedTemplate === template.id && (
                   <div className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: '#243e36' }}>
                     <Check className="w-4 h-4 text-white" />
                   </div>
                 )}
               </div>
-              <h4 className="font-medium" style={{ color: '#243e36' }}>{template.name}</h4>
-              <p className="text-xs text-gray-500 mt-1">{template.description}</p>
+              <h4 className="font-medium text-sm md:text-base" style={{ color: '#243e36' }}>{template.name}</h4>
+              <p className="text-xs text-gray-500 mt-1 hidden md:block">{template.description}</p>
             </div>
           </Card>
         ))}
