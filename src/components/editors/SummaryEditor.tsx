@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { FileText, Sparkles } from 'lucide-react';
+import { FileText, Sparkles, Loader } from 'lucide-react';
 import { useAIService } from '@/hooks/useAIService';
 import { ResumeData } from '@/pages/Index';
 import { useToast } from '@/hooks/use-toast';
@@ -90,10 +89,21 @@ export const SummaryEditor: React.FC<SummaryEditorProps> = ({
           size="sm"
           onClick={handleAIOptimize}
           disabled={isLoading}
-          className="flex items-center space-x-2"
+          className={`flex items-center space-x-2 relative transition-all duration-200 ${
+            isLoading ? "pointer-events-none opacity-80" : ""
+          }`}
         >
-          <Sparkles className="w-4 h-4" />
-          <span>{isLoading ? 'Optimizing...' : 'AI Optimize'}</span>
+          {isLoading ? (
+            <>
+              <Loader className="w-4 h-4 mr-1 animate-spin text-blue-500" />
+              <span className="animate-pulse">Optimizing...</span>
+            </>
+          ) : (
+            <>
+              <Sparkles className="w-4 h-4" />
+              <span>AI Optimize</span>
+            </>
+          )}
         </Button>
       </div>
       
