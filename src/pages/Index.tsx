@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ResumeEditor } from '@/components/ResumeEditor';
@@ -9,6 +8,8 @@ import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Download, Sparkles, Eye, Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { exportToPDF } from '@/utils/pdfExport';
+import { useToast } from '@/hooks/use-toast';
 
 export interface ResumeData {
   personalInfo: {
@@ -50,6 +51,7 @@ export interface ResumeData {
 
 const Index = () => {
   const [searchParams] = useSearchParams();
+  const { toast } = useToast();
   
   const [resumeData, setResumeData] = useState<ResumeData>({
     personalInfo: {
@@ -113,9 +115,28 @@ const Index = () => {
     }
   }, [searchParams]);
 
-  const handleExport = () => {
-    // Export functionality would be implemented here
-    console.log('Exporting resume...');
+  const handleExport = async () => {
+    try {
+      toast({
+        title: "Exporting resume...",
+        description: "Please wait while we generate your PDF.",
+      });
+
+      const fileName = `${resumeData.personalInfo.fullName.replace(/\s+/g, '_')}_Resume.pdf`;
+      await exportToPDF('resume-preview', fileName);
+      
+      toast({
+        title: "Success!",
+        description: "Your resume has been exported as PDF.",
+      });
+    } catch (error) {
+      console.error('Export failed:', error);
+      toast({
+        title: "Export failed",
+        description: "There was an error exporting your resume. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
