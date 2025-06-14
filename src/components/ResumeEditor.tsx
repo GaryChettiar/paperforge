@@ -38,6 +38,7 @@ export const ResumeEditor: React.FC<ResumeEditorProps> = ({
         <SummaryEditor
           data={resumeData.summary}
           onChange={(data) => updateResumeData('summary', data)}
+          resumeData={resumeData}
         />
       </Card>
 

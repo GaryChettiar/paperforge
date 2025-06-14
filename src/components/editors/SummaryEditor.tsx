@@ -4,19 +4,52 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { FileText, Sparkles } from 'lucide-react';
+import { useAIService } from '@/hooks/useAIService';
+import { ResumeData } from '@/pages/Index';
+import { useToast } from '@/hooks/use-toast';
 
 interface SummaryEditorProps {
   data: string;
   onChange: (data: string) => void;
+  resumeData?: ResumeData;
 }
 
 export const SummaryEditor: React.FC<SummaryEditorProps> = ({
   data,
-  onChange
+  onChange,
+  resumeData
 }) => {
-  const handleAIOptimize = () => {
-    // AI optimization would be implemented here
-    console.log('Optimizing summary with AI...');
+  const { generateResponse, isLoading, hasApiKey } = useAIService();
+  const { toast } = useToast();
+
+  const handleAIOptimize = async () => {
+    if (!hasApiKey) {
+      toast({
+        title: "API Key Required",
+        description: "Please set your OpenRouter API key in the AI Assistant to use this feature.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const prompt = `Based on my resume experience and skills, please write a compelling professional summary that would catch a recruiter's attention. Make it concise, impactful, and highlight key achievements.`;
+      
+      const optimizedSummary = await generateResponse(prompt, resumeData);
+      onChange(optimizedSummary);
+      
+      toast({
+        title: "Summary Optimized!",
+        description: "Your professional summary has been enhanced with AI suggestions.",
+      });
+    } catch (error) {
+      console.error('AI optimization error:', error);
+      toast({
+        title: "Optimization Failed",
+        description: "Failed to optimize summary. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -30,10 +63,11 @@ export const SummaryEditor: React.FC<SummaryEditorProps> = ({
           variant="outline"
           size="sm"
           onClick={handleAIOptimize}
+          disabled={isLoading}
           className="flex items-center space-x-2"
         >
           <Sparkles className="w-4 h-4" />
-          <span>AI Optimize</span>
+          <span>{isLoading ? 'Optimizing...' : 'AI Optimize'}</span>
         </Button>
       </div>
       
