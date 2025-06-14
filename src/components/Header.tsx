@@ -3,8 +3,28 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText, Save, Share2, User, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 export const Header = () => {
+  const { toast } = useToast();
+
+  // Handler to copy the current URL to clipboard and show a toast
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "Link copied!",
+        description: "You can now share this page with others.",
+      });
+    } catch {
+      toast({
+        title: "Could not copy link",
+        description: "Your browser may not support copying. Try manually copying the URL.",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4">
@@ -28,7 +48,13 @@ export const Header = () => {
           <Save className="w-4 h-4" />
           <span>Save</span>
         </Button>
-        <Button variant="ghost" size="sm" className="flex items-center space-x-2 hover:bg-opacity-10" style={{ color: '#243e36' }}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="flex items-center space-x-2 hover:bg-opacity-10"
+          style={{ color: '#243e36' }}
+          onClick={handleShare}
+        >
           <Share2 className="w-4 h-4" />
           <span>Share</span>
         </Button>
