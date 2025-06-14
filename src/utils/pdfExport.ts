@@ -10,75 +10,64 @@ export const exportToPDF = async (elementId: string, filename: string = 'resume.
     }
 
     // Wait for fonts to load and ensure all content is rendered
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Ensure the element is visible and has content
-    const rect = element.getBoundingClientRect();
-    console.log('Element dimensions:', rect.width, rect.height);
-    console.log('Element content:', element.innerHTML.length > 0 ? 'Content found' : 'No content');
+    console.log('Starting PDF export for element:', elementId);
 
-    // Create canvas from the element with settings optimized for text
+    // Create canvas with simplified settings
     const canvas = await html2canvas(element, {
-      scale: 2,
+      scale: 1.5,
       useCORS: true,
-      allowTaint: true,
+      allowTaint: false,
       backgroundColor: '#ffffff',
-      width: element.scrollWidth,
+      logging: true,
       height: element.scrollHeight,
-      logging: true, // Enable logging to debug
-      imageTimeout: 15000,
-      removeContainer: true,
-      foreignObjectRendering: true,
-      // Force specific font rendering
-      onclone: (clonedDoc) => {
-        const clonedElement = clonedDoc.getElementById(elementId);
-        if (clonedElement) {
-          // Ensure fonts are applied
-          clonedElement.style.fontFamily = 'Arial, sans-serif';
-          clonedElement.style.fontSize = '14px';
-          clonedElement.style.lineHeight = '1.4';
-        }
-      }
+      width: element.scrollWidth
     });
 
-    console.log('Canvas dimensions:', canvas.width, canvas.height);
+    console.log('Canvas created:', canvas.width, 'x', canvas.height);
 
-    // Check if canvas has content
-    if (canvas.width === 0 || canvas.height === 0) {
-      throw new Error('Canvas has no dimensions. The element might be hidden or have no content.');
+    // Verify canvas has content
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const hasContent = imageData.data.some((channel, index) => 
+      index % 4 !== 3 && channel !== 255 // Check for non-white pixels (excluding alpha channel)
+    );
+
+    console.log('Canvas has content:', hasContent);
+
+    if (!hasContent) {
+      throw new Error('Canvas appears to be blank. Please try again.');
     }
 
-    // Create PDF with A4 dimensions
-    const imgData = canvas.toDataURL('image/png', 1.0);
-    const pdf = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4',
-      compress: true
-    });
+    // Create PDF
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+    const pdf = new jsPDF('portrait', 'mm', 'a4');
 
-    const pageWidth = 210; // A4 width in mm
-    const pageHeight = 297; // A4 height in mm
-    const imgWidth = pageWidth;
-    const imgHeight = (canvas.height * pageWidth) / canvas.width;
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
     
+    const imgWidth = pdfWidth;
+    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
     let heightLeft = imgHeight;
     let position = 0;
 
     // Add first page
-    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, '', 'FAST');
-    heightLeft -= pageHeight;
+    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pdfHeight;
 
-    // Add additional pages if content is longer than one page
+    // Add additional pages if needed
     while (heightLeft >= 0) {
       position = heightLeft - imgHeight;
       pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, '', 'FAST');
-      heightLeft -= pageHeight;
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
     }
 
     // Save the PDF
     pdf.save(filename);
+    console.log('PDF saved successfully');
   } catch (error) {
     console.error('Error exporting to PDF:', error);
     throw error;
