@@ -13,29 +13,29 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       {/* Header */}
       <div className="pb-6 mb-6" style={{ borderBottom: `4px solid #243e36` }}>
         <h1 className="text-3xl font-bold mb-2" style={{ color: '#243e36' }}>{data.personalInfo.fullName}</h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-gray-600">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-gray-600">
           <div className="flex items-center space-x-2">
-            <Mail className="w-4 h-4" />
-            <span>{data.personalInfo.email}</span>
+            <Mail className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate">{data.personalInfo.email}</span>
           </div>
           <div className="flex items-center space-x-2">
-            <Phone className="w-4 h-4" />
-            <span>{data.personalInfo.phone}</span>
+            <Phone className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate">{data.personalInfo.phone}</span>
           </div>
           <div className="flex items-center space-x-2">
-            <MapPin className="w-4 h-4" />
-            <span>{data.personalInfo.location}</span>
+            <MapPin className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate">{data.personalInfo.location}</span>
           </div>
           {data.personalInfo.linkedin && (
             <div className="flex items-center space-x-2">
-              <Linkedin className="w-4 h-4" />
-              <span>{data.personalInfo.linkedin}</span>
+              <Linkedin className="w-4 h-4 flex-shrink-0" />
+              <span className="truncate">{data.personalInfo.linkedin}</span>
             </div>
           )}
           {data.personalInfo.website && (
             <div className="flex items-center space-x-2">
-              <Globe className="w-4 h-4" />
-              <span>{data.personalInfo.website}</span>
+              <Globe className="w-4 h-4 flex-shrink-0" />
+              <span className="truncate">{data.personalInfo.website}</span>
             </div>
           )}
         </div>
@@ -96,7 +96,11 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
           <h2 className="text-xl font-semibold mb-3" style={{ color: '#243e36' }}>Skills</h2>
           <div className="flex flex-wrap gap-2">
             {data.skills.map((skill) => (
-              <span key={skill} className="px-3 py-1 rounded-full text-sm" style={{ backgroundColor: '#f1f7ed', color: '#243e36' }}>
+              <span 
+                key={skill} 
+                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium" 
+                style={{ backgroundColor: '#f1f7ed', color: '#243e36' }}
+              >
                 {skill}
               </span>
             ))}
@@ -116,7 +120,10 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
                 <p className="text-gray-700 mb-2">{project.description}</p>
                 <div className="flex flex-wrap gap-1">
                   {project.technologies.map((tech) => (
-                    <span key={tech} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
+                    <span 
+                      key={tech} 
+                      className="inline-flex items-center bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium"
+                    >
                       {tech}
                     </span>
                   ))}

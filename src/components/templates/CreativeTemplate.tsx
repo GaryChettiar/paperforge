@@ -22,27 +22,27 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data, sideba
             <h1 className="text-2xl font-bold mb-2">{data.personalInfo.fullName}</h1>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4" />
-                <span className="text-xs">{data.personalInfo.email}</span>
+                <Mail className="w-4 h-4 flex-shrink-0" />
+                <span className="text-xs truncate">{data.personalInfo.email}</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4" />
-                <span className="text-xs">{data.personalInfo.phone}</span>
+                <Phone className="w-4 h-4 flex-shrink-0" />
+                <span className="text-xs truncate">{data.personalInfo.phone}</span>
               </div>
               <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4" />
-                <span className="text-xs">{data.personalInfo.location}</span>
+                <MapPin className="w-4 h-4 flex-shrink-0" />
+                <span className="text-xs truncate">{data.personalInfo.location}</span>
               </div>
               {data.personalInfo.linkedin && (
                 <div className="flex items-center space-x-2">
-                  <Linkedin className="w-4 h-4" />
-                  <span className="text-xs">{data.personalInfo.linkedin}</span>
+                  <Linkedin className="w-4 h-4 flex-shrink-0" />
+                  <span className="text-xs truncate">{data.personalInfo.linkedin}</span>
                 </div>
               )}
               {data.personalInfo.website && (
                 <div className="flex items-center space-x-2">
-                  <Globe className="w-4 h-4" />
-                  <span className="text-xs">{data.personalInfo.website}</span>
+                  <Globe className="w-4 h-4 flex-shrink-0" />
+                  <span className="text-xs truncate">{data.personalInfo.website}</span>
                 </div>
               )}
             </div>
@@ -55,7 +55,7 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data, sideba
               <div className="space-y-2">
                 {data.skills.map((skill) => (
                   <div key={skill} className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <div className="w-2 h-2 bg-white rounded-full flex-shrink-0"></div>
                     <span className="text-xs">{skill}</span>
                   </div>
                 ))}
@@ -133,7 +133,11 @@ export const CreativeTemplate: React.FC<CreativeTemplateProps> = ({ data, sideba
                     <p className="text-gray-700 text-xs mb-2">{project.description}</p>
                     <div className="flex flex-wrap gap-1">
                       {project.technologies.map((tech) => (
-                        <span key={tech} className="px-2 py-1 rounded-full text-xs" style={{ backgroundColor: lighterColor, color: sidebarColor }}>
+                        <span 
+                          key={tech} 
+                          className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium" 
+                          style={{ backgroundColor: lighterColor, color: sidebarColor }}
+                        >
                           {tech}
                         </span>
                       ))}
