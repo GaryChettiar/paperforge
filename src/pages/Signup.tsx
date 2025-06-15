@@ -60,11 +60,6 @@ const Signup = () => {
       <div className="relative z-10 w-full max-w-md px-4">
         <Card className="backdrop-blur-sm bg-white/95 shadow-xl border-0">
           <CardHeader className="space-y-1 pb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="p-3 rounded-full" style={{ backgroundColor: '#243e36' }}>
-                <UserPlus className="w-8 h-8 text-white" />
-              </div>
-            </div>
             <CardTitle className="text-3xl font-bold text-center" style={{ color: '#243e36' }}>
               Join ResumeAI
             </CardTitle>
