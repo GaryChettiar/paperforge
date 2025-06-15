@@ -57,14 +57,21 @@ export const SkillsEditor: React.FC<SkillsEditorProps> = ({
     setAiSuggestions([]);
     toast({ title: "AI analyzing your resume...", description: "Generating best-fit skill suggestions." });
     try {
-      // context doesn't include full resume since skills editor is sectioned and doesn't get resumeData
-      // Let's ask for general skills list based on "my resume" for now.
+      // Sharpen prompt to ask for strict CSV, no intro.
       const response = await generateResponse(
-        "Based on my resume details, suggest a concise, comma-separated list of the top 10 technical and soft skills I should include in my resume. Only return the skills list, separated by commas."
+        "Suggest the top 10 most relevant technical and soft skills for my resume. Respond ONLY with a comma-separated list of skills, no explanations, no headings, no extra text—just the list."
       );
-      const parsed = response.split(",").map(s => s.trim()).filter(Boolean);
+      // Clean up any rogue lines, pick the first non-empty line.
+      let mainLine = response.split('\n').find(l => l.trim() && !l.toLowerCase().includes('skills'));
+      if (!mainLine) mainLine = response.trim();
+      // Process skills as before.
+      const parsed = mainLine.split(",").map(s => s.trim()).filter(Boolean);
       setAiSuggestions(parsed.filter(s => s && !data.includes(s)));
-      toast({ title: "AI Suggestion Ready!", description: "Review and add suggested skills below." });
+      if(parsed.length){
+        toast({ title: "AI Suggestion Ready!", description: "Review and add suggested skills below." });
+      } else {
+        toast({ title: "No suggestions generated", description: "The AI did not return skills. Try again.", variant: "destructive" });
+      }
     } catch (e: any) {
       toast({
         title: "AI Suggestion Failed",

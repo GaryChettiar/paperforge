@@ -88,34 +88,45 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
     try {
       const context = {
         ...exp,
-        // If more context is needed (like summary, skills, etc.), pass it here
       };
+      // New prompt: demand strict number list, no explanation.
       const prompt = `
-Please rewrite the job description bullet points for this position to be stronger, action-oriented, and achievement-focused, including quantitative results where possible. Return a numbered bullet list, each as a concise sentence.
+Rewrite the job description bullet points for this position to be stronger, action-oriented, and achievement-focused, with quantitative results where possible.
+Respond with NOTHING except a plain numbered list of new bullet points, no headings, no explanations, no extra lines.
+Example:
+1. Led X, achieving Y.
+2. Increased Z by 40%.
+`;
 
+      const aiResult = await generateResponse(prompt +
+`
 Job Title: ${exp.title}
 Company: ${exp.company}
 Location: ${exp.location}
 Period: ${exp.startDate} - ${exp.current ? "Present" : exp.endDate || ""}
 Current Bullet Points:
 ${exp.description.filter(Boolean).map(d => "- " + d).join("\n")}
-`
-      ;
+`, context);
 
-      const aiResult = await generateResponse(prompt, context);
-
-      // Try to split out returned items by lines/numbers/dashes (handle possible formatting):
+      // Take only lines that look like numbered bullet points (1... 2... etc)
       const lines = aiResult
         .split(/\n/)
-        .map(l => l.replace(/^\d+[.)-]? ?/, '').replace(/^- /, '').trim())
-        .filter(Boolean);
-      if (lines.length) {
-        updateExperience(exp.id, "description", lines);
+        .map(l => l.trim())
+        .filter(l => /^\d+[\.\)]\s*.+/.test(l));
+      // Fallback: Accept also lines starting with dash or number
+      const bulletLines = lines.length
+        ? lines
+        : aiResult
+            .split(/\n/)
+            .map(l => l.replace(/^\d+[.)-]? ?/, '').replace(/^- /, '').trim())
+            .filter(Boolean);
+      if (bulletLines.length) {
+        updateExperience(exp.id, "description", bulletLines.map(txt => txt.replace(/^\d+[.)-]? ?/, '').replace(/^- /, '').trim()));
         toast({ title: "Success!", description: "AI-enhanced bullet points added." });
       } else {
         toast({
-          title: "AI did not generate valid bullet points.",
-          description: aiResult,
+          title: "No job description generated.",
+          description: aiResult || "AI returned an empty response.",
           variant: "destructive"
         });
       }
