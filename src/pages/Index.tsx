@@ -18,7 +18,18 @@ import {
   Sidebar,
   SidebarContent,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
+
+// --- FAB component for sidebar trigger only when sidebar is collapsed ---
+const FABSidebarTrigger = () => (
+  <div className="fixed top-24 left-4 z-50 md:block hidden">
+    <SidebarTrigger
+      className="bg-white border border-gray-300 rounded-full shadow-lg w-14 h-14 flex items-center justify-center transition hover:bg-gray-100"
+      style={{ boxShadow: '0 2px 8px rgba(36,62,54,0.10)' }}
+    />
+  </div>
+);
 
 export interface ResumeData {
   personalInfo: {
@@ -161,13 +172,15 @@ const Index = () => {
     }
   };
 
+  // Use sidebar state to control when to show FAB for collapsed state
+  const { state } = useSidebar?.() ?? { state: "expanded" };
+  const isSidebarCollapsed = state === "collapsed";
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full" style={{ backgroundColor: '#f1f7ed' }}>
         <div className="fixed top-0 left-0 right-0 z-30">
           <Header />
-          {/* Always visible SidebarTrigger in the header */}
-          <SidebarTrigger className="absolute left-4 top-4 md:left-6 md:top-[22px] z-40 bg-white border border-gray-200 rounded-lg shadow-sm p-1" />
         </div>
         {/* Mobile Template Sidebar */}
         <div className="block md:hidden">
@@ -196,11 +209,19 @@ const Index = () => {
           </Sheet>
         </div>
 
-        {/* Desktop Template Sidebar (collapsible) */}
+        {/* Desktop Template Sidebar (collapsible & with trigger/fab) */}
         <Sidebar
           className="hidden md:block bg-white border-r border-gray-200 transition-all duration-300 min-h-screen mt-16"
           collapsible="offcanvas"
         >
+          {/* SidebarTrigger as part of sidebar!! */}
+          <div className="px-3 py-3 flex justify-end">
+            <SidebarTrigger
+              className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-lg shadow w-10 h-10 flex items-center justify-center"
+              aria-label="Collapse Sidebar"
+              style={{ color: "#243e36" }}
+            />
+          </div>
           <SidebarContent className="p-0">
             <TemplateSidebar
               selectedTemplate={selectedTemplate}
@@ -210,6 +231,10 @@ const Index = () => {
             />
           </SidebarContent>
         </Sidebar>
+        {/* FAB for collapsed sidebar (desktop only) */}
+        {isSidebarCollapsed && (
+          <FABSidebarTrigger />
+        )}
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col lg:flex-row pt-16 md:pt-0">
@@ -295,3 +320,4 @@ const Index = () => {
 };
 
 export default Index;
+
