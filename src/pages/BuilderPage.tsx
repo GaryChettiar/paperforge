@@ -143,7 +143,7 @@ const BuilderPage: React.FC = () => {
     <SidebarProvider>
       <div className="w-full flex flex-col">
         {/* Resume title editable input */}
-        <div className="flex justify-center items-center py-4 bg-[#f1f7ed] border-b border-gray-200">
+        <div className="flex justify-center items-center py-4 bg-[#f1f7ed] border-b border-gray-200 mt-16">
           <Input
             value={resumeTitle}
             onChange={handleTitleChange}
