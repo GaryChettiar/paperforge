@@ -10,6 +10,7 @@ import { Download, Sparkles, Eye, Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { exportToPDF } from '@/utils/pdfExport';
 import { useToast } from '@/hooks/use-toast';
+import { useResumeStorage } from '@/hooks/useResumeStorage';
 
 // Sidebar imports
 import {
@@ -124,6 +125,22 @@ const Index = () => {
     }
   }, [searchParams]);
 
+  const [resumeId] = useState(() => generateResumeId());
+  const [resumeTitle, setResumeTitle] = useState('Untitled Resume');
+
+  // Save handler: call saveOrUpdateResume with Firestore structure
+  const handleSaveResume = async () => {
+    await saveOrUpdateResume({
+      id: resumeId,
+      title: resumeTitle,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      data: resumeData,
+      template: selectedTemplate,
+      creativeSidebarColor,
+    });
+  }
+
   const handleExport = async () => {
     try {
       toast({
@@ -177,6 +194,9 @@ const Index = () => {
         showMobileTemplates={showMobileTemplates}
         setShowMobileTemplates={setShowMobileTemplates}
         handleExport={handleExport}
+        handleSaveResume={handleSaveResume}
+        resumeTitle={resumeTitle}
+        saving={saving}
       />
     </SidebarProvider>
   );
@@ -197,6 +217,9 @@ const SidebarLayout = ({
   showMobileTemplates,
   setShowMobileTemplates,
   handleExport,
+  handleSaveResume,
+  resumeTitle,
+  saving,
 }: any) => {
   const { state } = useSidebar();
   const isSidebarCollapsed = state === "collapsed";
@@ -214,7 +237,11 @@ const SidebarLayout = ({
   return (
     <div className="min-h-screen flex w-full" style={{ backgroundColor: '#f1f7ed' }}>
       <div className="fixed top-0 left-0 right-0 z-30">
-        <Header />
+        <Header
+          onSave={handleSaveResume}
+          saving={saving}
+          resumeTitle={resumeTitle}
+        />
       </div>
       {/* Mobile Template Sidebar */}
       <div className="block md:hidden">
