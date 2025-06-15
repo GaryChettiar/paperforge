@@ -27,51 +27,35 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
         </h1>
         <div
           className="flex flex-wrap gap-x-6 gap-y-2 text-gray-700 text-sm items-center"
-          style={{ alignItems: 'center' }}
         >
           {data.personalInfo.email && (
-            <div className="flex items-center gap-2 min-w-[180px]" style={{ alignItems: 'center' }}>
-              <Mail
-                className="w-4 h-4 min-w-4 min-h-4 align-middle relative"
-                style={{ color: '#42697a', top: '1px', verticalAlign: 'middle' }}
-              />
-              <span className="align-middle" style={{ verticalAlign: 'middle' }}>{data.personalInfo.email}</span>
+            <div className="flex items-center gap-2 min-w-[180px]">
+              <Mail className="w-4 h-4 text-[#42697a] flex-shrink-0" />
+              <span>{data.personalInfo.email}</span>
             </div>
           )}
           {data.personalInfo.phone && (
-            <div className="flex items-center gap-2 min-w-[140px]" style={{ alignItems: 'center' }}>
-              <Phone
-                className="w-4 h-4 min-w-4 min-h-4 align-middle relative"
-                style={{ color: '#42697a', top: '1px', verticalAlign: 'middle' }}
-              />
-              <span className="align-middle" style={{ verticalAlign: 'middle' }}>{data.personalInfo.phone}</span>
+            <div className="flex items-center gap-2 min-w-[140px]">
+              <Phone className="w-4 h-4 text-[#42697a] flex-shrink-0" />
+              <span>{data.personalInfo.phone}</span>
             </div>
           )}
           {data.personalInfo.location && (
-            <div className="flex items-center gap-2 min-w-[120px]" style={{ alignItems: 'center' }}>
-              <MapPin
-                className="w-4 h-4 min-w-4 min-h-4 align-middle relative"
-                style={{ color: '#42697a', top: '1px', verticalAlign: 'middle' }}
-              />
-              <span className="align-middle" style={{ verticalAlign: 'middle' }}>{data.personalInfo.location}</span>
+            <div className="flex items-center gap-2 min-w-[120px]">
+              <MapPin className="w-4 h-4 text-[#42697a] flex-shrink-0" />
+              <span>{data.personalInfo.location}</span>
             </div>
           )}
           {data.personalInfo.linkedin && (
-            <div className="flex items-center gap-2 min-w-[130px]" style={{ alignItems: 'center' }}>
-              <Linkedin
-                className="w-4 h-4 min-w-4 min-h-4 align-middle relative"
-                style={{ color: '#42697a', top: '1px', verticalAlign: 'middle' }}
-              />
-              <span className="align-middle" style={{ verticalAlign: 'middle' }}>{data.personalInfo.linkedin}</span>
+            <div className="flex items-center gap-2 min-w-[130px]">
+              <Linkedin className="w-4 h-4 text-[#42697a] flex-shrink-0" />
+              <span>{data.personalInfo.linkedin}</span>
             </div>
           )}
           {data.personalInfo.website && (
-            <div className="flex items-center gap-2 min-w-[130px]" style={{ alignItems: 'center' }}>
-              <Globe
-                className="w-4 h-4 min-w-4 min-h-4 align-middle relative"
-                style={{ color: '#42697a', top: '1px', verticalAlign: 'middle' }}
-              />
-              <span className="align-middle" style={{ verticalAlign: 'middle' }}>{data.personalInfo.website}</span>
+            <div className="flex items-center gap-2 min-w-[130px]">
+              <Globe className="w-4 h-4 text-[#42697a] flex-shrink-0" />
+              <span>{data.personalInfo.website}</span>
             </div>
           )}
         </div>
@@ -105,24 +89,34 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
                 <h3 className="font-bold text-gray-900">{exp.title}</h3>
                 <div
                   className="flex flex-wrap gap-6 text-base font-medium items-center"
-                  style={{ color: '#243e36', alignItems: 'center' }}
+                  style={{ color: '#243e36' }}
                 >
                   <span>{exp.company}</span>
                   <span className="text-gray-400">•</span>
                   <span>{exp.location}</span>
                 </div>
                 <div className="text-gray-500 mb-1 text-xs">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</div>
-                <ul className="list-disc ml-6 space-y-1 text-gray-700"
-                  style={{
-                    paddingLeft: '1.1em',
-                    lineHeight: '1.7',
-                    marginTop: '2px',
-                    marginBottom: '2px',
-                  }}
-                >
+                <ul className="list-disc ml-6 space-y-1 text-gray-700">
                   {exp.description.map((desc, index) => (
-                    <li key={index} style={{ verticalAlign: 'middle' }}>
-                      {desc}
+                    <li
+                      key={index}
+                      className="flex items-start gap-2 leading-relaxed"
+                      style={{ minHeight: '1.4em' }}
+                    >
+                      <span
+                        className="inline-block"
+                        style={{
+                          marginTop: '0.5em',
+                          width: '0.45em',
+                          minWidth: '0.45em',
+                          height: '0.45em',
+                          background: '#243e36',
+                          borderRadius: '9999px',
+                          marginRight: '0.6em',
+                          display: 'inline-block',
+                        }}
+                      ></span>
+                      <span className="pt-[1px]">{desc}</span>
                     </li>
                   ))}
                 </ul>
@@ -145,7 +139,7 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
             {data.education.map((edu) => (
               <div key={edu.id}>
                 <h3 className="font-semibold text-gray-900">{edu.degree}</h3>
-                <div className="flex flex-wrap gap-6 items-center" style={{ color: '#243e36', alignItems: 'center' }}>
+                <div className="flex flex-wrap gap-6 items-center" style={{ color: '#243e36' }}>
                   <span>{edu.school}</span>
                   <span className="text-gray-400">•</span>
                   <span>{edu.location}</span>
@@ -173,24 +167,20 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
             style={{
               rowGap: '10px',
               columnGap: '12px',
-              alignItems: 'center',
               marginTop: '-6px',
             }}
           >
             {data.skills.map((skill) => (
               <span
                 key={skill}
-                className="px-3 py-[0.35em] rounded-full text-sm"
+                className="flex items-center px-3 py-[0.35em] rounded-full text-sm"
                 style={{
                   backgroundColor: '#f1f7ed',
                   color: '#243e36',
                   boxShadow: '0 1px 2px #eee',
                   letterSpacing: '0.1em',
-                  display: 'inline-flex',
-                  alignItems: 'center',
                   lineHeight: '1.8',
                   minHeight: '2.1em',
-                  verticalAlign: 'middle',
                   fontFamily: 'inherit',
                 }}
               >
@@ -220,16 +210,13 @@ export const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
                   </p>
                 )}
                 <p className="text-gray-700 mb-2">{project.description}</p>
-                <div className="flex flex-wrap gap-2 items-center" style={{ alignItems: 'center' }}>
+                <div className="flex flex-wrap gap-2 items-center">
                   {project.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs"
+                      className="flex items-center bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs"
                       style={{
                         fontFamily: 'inherit',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        verticalAlign: 'middle',
                         lineHeight: '1.8',
                         minHeight: '1.8em',
                       }}
