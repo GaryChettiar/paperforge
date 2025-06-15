@@ -270,7 +270,7 @@ const SidebarLayout = ({
       )}
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col lg:flex-row pt-16 md:pt-0">
+      <div className="flex-1 flex flex-col lg:flex-row pt-16">
         {/* Editor Section */}
         <div className={`transition-all duration-300 ${showPreview ? 'lg:w-1/2' : 'flex-1'} bg-white border-b lg:border-b-0 lg:border-r border-gray-200`}>
           <div className="p-4 lg:p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
