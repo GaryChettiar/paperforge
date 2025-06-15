@@ -134,7 +134,9 @@ const Profile = () => {
             
             <CardContent className="space-y-6">
               <div className="text-center p-6 rounded-lg" style={{ backgroundColor: '#f1f7ed' }}>
-                <div className="text-3xl font-bold mb-2" style={{ color: '#243e36' }}>{userMock.resumesCreated}</div>
+                <div className="text-3xl font-bold mb-2" style={{ color: '#243e36' }}>
+                  {resumesArr.length}
+                </div>
                 <div className="text-sm text-gray-600">Resumes Created</div>
               </div>
               
@@ -287,4 +289,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
