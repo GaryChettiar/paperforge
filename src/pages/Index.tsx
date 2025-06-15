@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ResumeEditor } from '@/components/ResumeEditor';
@@ -222,11 +221,11 @@ const SidebarLayout = ({
         <Sheet open={showMobileTemplates} onOpenChange={setShowMobileTemplates}>
           <SheetTrigger asChild>
             <Button 
-              variant="outline" 
-              className="m-4 flex items-center space-x-2"
+              variant="outline"
+              className="m-4 flex items-center gap-2"
               style={{ borderColor: '#243e36', color: '#243e36' }}
             >
-              <Menu className="w-4 h-4" />
+              <Menu className="w-4 h-4 mr-2" />
               <span>Templates</span>
             </Button>
           </SheetTrigger>
@@ -353,4 +352,3 @@ const SidebarLayout = ({
 };
 
 export default Index;
-
