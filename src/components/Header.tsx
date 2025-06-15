@@ -58,10 +58,13 @@ export const Header = () => {
           <Share2 className="w-4 h-4" />
           <span>Share</span>
         </Button>
-        <Button variant="ghost" size="sm" className="w-8 h-8 p-0 rounded-full hover:bg-opacity-10" style={{ color: '#243e36' }}>
-          <User className="w-4 h-4" />
-        </Button>
+        <Link to="/profile">
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 rounded-full hover:bg-opacity-10" style={{ color: '#243e36' }}>
+            <User className="w-4 h-4" />
+          </Button>
+        </Link>
       </div>
     </header>
   );
 };
+
