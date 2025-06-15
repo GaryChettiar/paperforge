@@ -58,7 +58,7 @@ const Login = () => {
               Welcome Back
             </CardTitle>
             <CardDescription className="text-center text-gray-600 text-lg">
-              Sign in to your ResumeAI account
+              Sign in to your PaperForge account
             </CardDescription>
           </CardHeader>
 

@@ -61,7 +61,7 @@ const Signup = () => {
         <Card className="backdrop-blur-sm bg-white/95 shadow-xl border-0">
           <CardHeader className="space-y-1 pb-8">
             <CardTitle className="text-3xl font-bold text-center" style={{ color: '#243e36' }}>
-              Join ResumeAI
+              Join PaperForge
             </CardTitle>
             <CardDescription className="text-center text-gray-600 text-lg">
               Create your account and start building amazing resumes
