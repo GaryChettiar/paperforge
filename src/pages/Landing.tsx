@@ -1,9 +1,33 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText, Sparkles, Download, Eye, Users, Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
+// Remove Link import, add useNavigate instead
+import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../lib/firebase"; // ensure it's the right path
 
 const Landing = () => {
+  const navigate = useNavigate();
+
+  // Handler to route based on auth status
+  const handleStart = () => {
+    // Immediately check if currentUser exists
+    if (auth.currentUser) {
+      navigate('/builder');
+    } else {
+      // Double-check in case of stale user objects
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        unsubscribe();
+        if (user) {
+          navigate('/builder');
+        } else {
+          navigate('/login');
+        }
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f1f7ed 0%, #7ca982 100%)' }}>
       {/* Header */}
@@ -14,11 +38,14 @@ const Landing = () => {
               <FileText className="w-8 h-8" style={{ color: '#243e36' }} />
               <h1 className="text-2xl font-bold" style={{ color: '#243e36' }}>ResumeAI</h1>
             </div>
-            <Link to="/builder">
-              <Button className="text-white hover:opacity-90" style={{ backgroundColor: '#243e36' }}>
-                Get Started
-              </Button>
-            </Link>
+            {/* Replace Link with button */}
+            <Button
+              className="text-white hover:opacity-90"
+              style={{ backgroundColor: '#243e36' }}
+              onClick={handleStart}
+            >
+              Get Started
+            </Button>
           </div>
         </div>
       </header>
@@ -35,18 +62,23 @@ const Landing = () => {
             Choose from beautiful templates, get smart suggestions, and land your dream job.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/builder">
-              <Button size="lg" className="text-white text-lg px-8 py-3" style={{ backgroundColor: '#243e36' }}>
-                <Sparkles className="w-5 h-5 mr-2" />
-                Start Building Now
-              </Button>
-            </Link>
-            <Link to="/templates">
+            {/* "Start Building Now" Button */}
+            <Button
+              size="lg"
+              className="text-white text-lg px-8 py-3"
+              style={{ backgroundColor: '#243e36' }}
+              onClick={handleStart}
+            >
+              <Sparkles className="w-5 h-5 mr-2" />
+              Start Building Now
+            </Button>
+            {/* "See Examples" remains a Link as before */}
+            <a href="/templates" tabIndex={-1} style={{ display: 'contents' }}>
               <Button variant="outline" size="lg" className="text-lg px-8 py-3 hover:bg-opacity-50" style={{ borderColor: '#243e36', color: '#243e36', backgroundColor: 'transparent' }}>
                 <Eye className="w-5 h-5 mr-2" />
                 See Examples
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -132,12 +164,16 @@ const Landing = () => {
         <p className="text-lg mb-8" style={{ color: '#243e36', opacity: 0.8 }}>
           Join thousands of job seekers who have successfully landed their dream jobs
         </p>
-        <Link to="/builder">
-          <Button size="lg" className="text-white text-lg px-12 py-4" style={{ backgroundColor: '#243e36' }}>
-            <Sparkles className="w-5 h-5 mr-2" />
-            Get Started for Free
-          </Button>
-        </Link>
+        {/* CTA */}
+        <Button
+          size="lg"
+          className="text-white text-lg px-12 py-4"
+          style={{ backgroundColor: '#243e36' }}
+          onClick={handleStart}
+        >
+          <Sparkles className="w-5 h-5 mr-2" />
+          Get Started for Free
+        </Button>
       </section>
 
       {/* Footer */}
