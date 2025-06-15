@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ResumeEditor } from '@/components/ResumeEditor';
@@ -18,68 +19,102 @@ import { SidebarLayout } from "./SidebarLayout";
 import { ResumeData } from "@/types/resume";
 import { Input } from "@/components/ui/input";
 
+// default resume template
+const DEFAULT_RESUME_DATA: ResumeData = {
+  personalInfo: {
+    fullName: 'John Doe',
+    email: 'john.doe@email.com',
+    phone: '(555) 123-4567',
+    location: 'San Francisco, CA',
+    linkedin: 'linkedin.com/in/johndoe',
+    website: 'johndoe.dev'
+  },
+  summary: 'Experienced software engineer with 5+ years of expertise in full-stack development, specializing in React, Node.js, and cloud technologies. Passionate about creating scalable solutions and leading high-performing teams.',
+  experience: [
+    {
+      id: '1',
+      title: 'Senior Software Engineer',
+      company: 'Tech Corp',
+      location: 'San Francisco, CA',
+      startDate: '2022-01',
+      endDate: '',
+      current: true,
+      description: [
+        'Led development of microservices architecture serving 1M+ users',
+        'Improved application performance by 40% through optimization',
+        'Mentored 3 junior developers and established coding standards'
+      ]
+    }
+  ],
+  education: [
+    {
+      id: '1',
+      degree: 'Bachelor of Science in Computer Science',
+      school: 'University of California, Berkeley',
+      location: 'Berkeley, CA',
+      graduationDate: '2019-05',
+      gpa: '3.8'
+    }
+  ],
+  skills: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS', 'Docker', 'PostgreSQL'],
+  projects: [
+    {
+      id: '1',
+      name: 'E-commerce Platform',
+      description: 'Built a full-stack e-commerce platform with React, Node.js, and Stripe integration',
+      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      url: 'github.com/johndoe/ecommerce'
+    }
+  ]
+};
+
 const BuilderPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const {
+    resumes,
     saveOrUpdateResume,
     generateResumeId,
     loading: saving,
   } = useResumeStorage();
 
-  const [resumeData, setResumeData] = useState<ResumeData>({
-    personalInfo: {
-      fullName: 'John Doe',
-      email: 'john.doe@email.com',
-      phone: '(555) 123-4567',
-      location: 'San Francisco, CA',
-      linkedin: 'linkedin.com/in/johndoe',
-      website: 'johndoe.dev'
-    },
-    summary: 'Experienced software engineer with 5+ years of expertise in full-stack development, specializing in React, Node.js, and cloud technologies. Passionate about creating scalable solutions and leading high-performing teams.',
-    experience: [
-      {
-        id: '1',
-        title: 'Senior Software Engineer',
-        company: 'Tech Corp',
-        location: 'San Francisco, CA',
-        startDate: '2022-01',
-        endDate: '',
-        current: true,
-        description: [
-          'Led development of microservices architecture serving 1M+ users',
-          'Improved application performance by 40% through optimization',
-          'Mentored 3 junior developers and established coding standards'
-        ]
-      }
-    ],
-    education: [
-      {
-        id: '1',
-        degree: 'Bachelor of Science in Computer Science',
-        school: 'University of California, Berkeley',
-        location: 'Berkeley, CA',
-        graduationDate: '2019-05',
-        gpa: '3.8'
-      }
-    ],
-    skills: ['JavaScript', 'React', 'Node.js', 'Python', 'AWS', 'Docker', 'PostgreSQL'],
-    projects: [
-      {
-        id: '1',
-        name: 'E-commerce Platform',
-        description: 'Built a full-stack e-commerce platform with React, Node.js, and Stripe integration',
-        technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-        url: 'github.com/johndoe/ecommerce'
-      }
-    ]
-  });
+  // Get resumeId from URL search params
+  const urlResumeId = searchParams.get('resumeId');
+  // State for resumeId being edited or created
+  const [resumeId, setResumeId] = useState<string | null>(null);
+  // State for resumeData
+  const [resumeData, setResumeData] = useState<ResumeData>(DEFAULT_RESUME_DATA);
+  // State for title
+  const [resumeTitle, setResumeTitle] = useState('Untitled Resume');
+
+  // On mount or when urlResumeId or resumes changes:
+  useEffect(() => {
+    if (urlResumeId && resumes[urlResumeId]) {
+      // Editing existing resume
+      setResumeId(urlResumeId);
+      setResumeTitle(resumes[urlResumeId].title || 'Untitled Resume');
+      setResumeData(resumes[urlResumeId].resumeData);
+    } else if (urlResumeId && !resumes[urlResumeId]) {
+      // Unknown resumeId in URL, treat as new
+      setResumeId(urlResumeId);
+      setResumeTitle('Untitled Resume');
+      setResumeData(DEFAULT_RESUME_DATA);
+    } else if (!urlResumeId) {
+      // New resume (no ID in URL)
+      const newId = generateResumeId();
+      setResumeId(newId);
+      setResumeTitle('Untitled Resume');
+      setResumeData(DEFAULT_RESUME_DATA);
+    }
+    // Only update when resumes or urlResumeId changes
+  }, [urlResumeId, resumes, generateResumeId]);
 
   const [selectedTemplate, setSelectedTemplate] = useState('modern');
   const [creativeSidebarColor, setCreativeSidebarColor] = useState('#243e36');
   const [showPreview, setShowPreview] = useState(false);
   const [aiAssistantOpen, setAiAssistantOpen] = useState(false);
   const [showMobileTemplates, setShowMobileTemplates] = useState(false);
+
   useEffect(() => {
     const templateParam = searchParams.get('template');
     if (
@@ -90,14 +125,16 @@ const BuilderPage: React.FC = () => {
     }
   }, [searchParams]);
 
-  const [resumeId] = useState(() => generateResumeId());
-  const [resumeTitle, setResumeTitle] = useState('Untitled Resume');
-
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setResumeTitle(e.target.value);
   };
 
+  // Save handler: use the current resumeId
   const handleSaveResume = async () => {
+    if (!resumeId) {
+      toast({ title: "Error", description: "Resume ID missing.", variant: "destructive" });
+      return;
+    }
     await saveOrUpdateResume({
       id: resumeId,
       title: resumeTitle,
