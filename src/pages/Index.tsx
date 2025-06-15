@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ResumeEditor } from '@/components/ResumeEditor';
@@ -62,7 +63,14 @@ export interface ResumeData {
 const Index = () => {
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
-  
+
+  // Use resume storage hook!
+  const {
+    saveOrUpdateResume,
+    generateResumeId,
+    loading: saving, // map loading to saving state
+  } = useResumeStorage();
+
   const [resumeData, setResumeData] = useState<ResumeData>({
     personalInfo: {
       fullName: 'John Doe',
@@ -125,6 +133,7 @@ const Index = () => {
     }
   }, [searchParams]);
 
+  // Get a stable resume id on mount
   const [resumeId] = useState(() => generateResumeId());
   const [resumeTitle, setResumeTitle] = useState('Untitled Resume');
 
