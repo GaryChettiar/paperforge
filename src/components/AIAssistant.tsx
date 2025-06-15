@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
-import { ResumeData } from '@/pages/Index';
+import { ResumeData } from "@/types/resume";
 import { Sparkles, Send, Lightbulb, Target, Wand2 } from 'lucide-react';
 import { useAIService } from '@/hooks/useAIService';
 // Removed: import { APIKeyInput } from './APIKeyInput';

@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { ResumeData } from '@/pages/Index';
+import { ResumeData } from "@/types/resume";
 import { ModernTemplate } from './templates/ModernTemplate';
 import { ClassicTemplate } from './templates/ClassicTemplate';
 import { CreativeTemplate } from './templates/CreativeTemplate';

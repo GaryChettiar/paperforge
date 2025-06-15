@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { FileText, Sparkles, Loader } from 'lucide-react';
 import { useAIService } from '@/hooks/useAIService';
-import { ResumeData } from '@/pages/Index';
+import { ResumeData } from "@/types/resume";
 import { useToast } from '@/hooks/use-toast';
 
 interface SummaryEditorProps {

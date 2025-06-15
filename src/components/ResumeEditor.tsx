@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { PersonalInfoEditor } from './editors/PersonalInfoEditor';
 import { SummaryEditor } from './editors/SummaryEditor';
@@ -6,7 +5,7 @@ import { ExperienceEditor } from './editors/ExperienceEditor';
 import { EducationEditor } from './editors/EducationEditor';
 import { SkillsEditor } from './editors/SkillsEditor';
 import { ProjectsEditor } from './editors/ProjectsEditor';
-import { ResumeData } from '@/pages/Index';
+import { ResumeData } from "@/types/resume";
 import { Card } from '@/components/ui/card';
 
 interface ResumeEditorProps {

@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { ArrowLeft, Eye } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ResumePreview } from '@/components/ResumePreview';
-import { ResumeData } from '@/pages/Index';
+import { ResumeData } from "@/types/resume";
 
 const Templates = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);

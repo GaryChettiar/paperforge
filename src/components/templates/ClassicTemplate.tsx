@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { ResumeData } from '@/pages/Index';
+import { ResumeData } from "@/types/resume";
 
 interface ClassicTemplateProps {
   data: ResumeData;

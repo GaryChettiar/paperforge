@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { ResumeData } from '@/pages/Index';
+import { ResumeData } from "@/types/resume";
 import { Mail, Phone, MapPin, Globe, Linkedin } from 'lucide-react';
 
 interface CreativeTemplateProps {
