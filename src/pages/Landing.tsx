@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText, Sparkles, Download, Eye, Users, Star } from 'lucide-react';
@@ -76,7 +75,7 @@ const AuthenticatedLanding: React.FC<{
         <div className="flex items-center space-x-2">
           <FileText className="w-8 h-8" style={{ color: '#243e36' }} />
           <span className="text-2xl font-bold" style={{ color: '#243e36' }}>
-            ResumeAI
+            PaperForge
           </span>
         </div>
         <AvatarButton name={profile?.name} />
@@ -150,7 +149,7 @@ const Landing = () => {
             <div className="flex justify-between items-center py-6">
               <div className="flex items-center space-x-2">
                 <FileText className="w-8 h-8" style={{ color: '#243e36' }} />
-                <h1 className="text-2xl font-bold" style={{ color: '#243e36' }}>ResumeAI</h1>
+                <h1 className="text-2xl font-bold" style={{ color: '#243e36' }}>PaperForge</h1>
               </div>
               <Button
                 className="text-white hover:opacity-90"
@@ -224,7 +223,7 @@ const Landing = () => {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4" style={{ color: '#243e36' }}>
-              Why Choose ResumeAI?
+              Why Choose PaperForge?
             </h2>
             <p className="text-lg" style={{ color: '#243e36', opacity: 0.8 }}>
               Everything you need to create a standout resume
@@ -330,10 +329,10 @@ const Landing = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <FileText className="w-6 h-6" style={{ color: '#7ca982' }} />
-              <span className="text-xl font-bold">ResumeAI</span>
+              <span className="text-xl font-bold">PaperForge</span>
             </div>
             <p style={{ color: '#f1f7ed' }}>
-              © 2024 ResumeAI. All rights reserved.
+              © 2024 PaperForge. All rights reserved.
             </p>
           </div>
         </footer>
