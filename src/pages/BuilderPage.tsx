@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { SidebarLayout } from "./SidebarLayout";
 import { ResumeData } from "@/types/resume";
+import { Input } from "@/components/ui/input";
 
 const BuilderPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -92,6 +93,10 @@ const BuilderPage: React.FC = () => {
   const [resumeId] = useState(() => generateResumeId());
   const [resumeTitle, setResumeTitle] = useState('Untitled Resume');
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setResumeTitle(e.target.value);
+  };
+
   const handleSaveResume = async () => {
     await saveOrUpdateResume({
       id: resumeId,
@@ -136,24 +141,36 @@ const BuilderPage: React.FC = () => {
 
   return (
     <SidebarProvider>
-      <SidebarLayout
-        resumeData={resumeData}
-        setResumeData={setResumeData}
-        selectedTemplate={selectedTemplate}
-        setSelectedTemplate={setSelectedTemplate}
-        creativeSidebarColor={creativeSidebarColor}
-        setCreativeSidebarColor={setCreativeSidebarColor}
-        showPreview={showPreview}
-        setShowPreview={setShowPreview}
-        aiAssistantOpen={aiAssistantOpen}
-        setAiAssistantOpen={setAiAssistantOpen}
-        showMobileTemplates={showMobileTemplates}
-        setShowMobileTemplates={setShowMobileTemplates}
-        handleExport={handleExport}
-        handleSaveResume={handleSaveResume}
-        resumeTitle={resumeTitle}
-        saving={saving}
-      />
+      <div className="w-full flex flex-col">
+        {/* Resume title editable input */}
+        <div className="flex justify-center items-center py-4 bg-[#f1f7ed] border-b border-gray-200">
+          <Input
+            value={resumeTitle}
+            onChange={handleTitleChange}
+            placeholder="Enter resume name"
+            className="text-xl md:text-2xl text-center font-bold border-none bg-transparent focus:ring-0 focus-visible:ring-0 w-full max-w-lg"
+            style={{ color: "#243e36" }}
+          />
+        </div>
+        <SidebarLayout
+          resumeData={resumeData}
+          setResumeData={setResumeData}
+          selectedTemplate={selectedTemplate}
+          setSelectedTemplate={setSelectedTemplate}
+          creativeSidebarColor={creativeSidebarColor}
+          setCreativeSidebarColor={setCreativeSidebarColor}
+          showPreview={showPreview}
+          setShowPreview={setShowPreview}
+          aiAssistantOpen={aiAssistantOpen}
+          setAiAssistantOpen={setAiAssistantOpen}
+          showMobileTemplates={showMobileTemplates}
+          setShowMobileTemplates={setShowMobileTemplates}
+          handleExport={handleExport}
+          handleSaveResume={handleSaveResume}
+          resumeTitle={resumeTitle}
+          saving={saving}
+        />
+      </div>
     </SidebarProvider>
   );
 };

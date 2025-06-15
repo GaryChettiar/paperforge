@@ -4,6 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { User, Mail, Calendar, Settings, LogOut, Edit3, Crown } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { useResumeStorage } from "@/hooks/useResumeStorage";
+import { Table, TableHeader, TableBody, TableCell, TableRow, TableHead } from "@/components/ui/table";
+import { formatDistanceToNow } from "date-fns";
 
 // Helper to format ISO string to "Month Year"
 function formatMemberSince(isoDateStr?: string) {
@@ -23,6 +26,7 @@ const userMock = {
 const Profile = () => {
   const navigate = useNavigate();
   const { user, profile, loading } = useUserProfile();
+  const { resumes, loading: resumesLoading } = useResumeStorage();
 
   // Redirect to login if not logged in
   React.useEffect(() => {
@@ -43,6 +47,9 @@ const Profile = () => {
     );
   }
   if (!profile) return null; // (briefly, until redirected)
+
+  // Convert resumes object to array sorted by lastModified desc
+  const resumesArr = Object.values(resumes || {}).sort((a, b) => (b.lastModified ?? 0) - (a.lastModified ?? 0));
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #f1f7ed 0%, #7ca982 100%)' }}>
@@ -165,6 +172,50 @@ const Profile = () => {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* My Resumes List Section */}
+        <div className="max-w-4xl mx-auto mt-12">
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "#243e36" }}>My Resumes</h2>
+          {resumesLoading ? (
+            <div className="text-center py-8 text-gray-600">Loading your resumes...</div>
+          ) : resumesArr.length === 0 ? (
+            <div className="text-center py-8 text-gray-600">No resumes found.</div>
+          ) : (
+            <div className="bg-white/95 rounded-lg shadow border border-gray-100">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Last Modified</TableHead>
+                    <TableHead />
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {resumesArr.map((resume) => (
+                    <TableRow key={resume.id}>
+                      <TableCell className="font-medium">{resume.title || "Untitled Resume"}</TableCell>
+                      <TableCell>
+                        {resume.lastModified
+                          ? formatDistanceToNow(new Date(resume.lastModified), { addSuffix: true })
+                          : "—"}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="text-[#243e36] border-[#243e36]"
+                          onClick={() => navigate(`/builder?resumeId=${resume.id}`)}
+                        >
+                          Edit
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
         </div>
 
         {/* Back to Home Link */}
