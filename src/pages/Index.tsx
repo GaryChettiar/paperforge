@@ -198,7 +198,7 @@ const Index = () => {
 
         {/* Desktop Template Sidebar (collapsible) */}
         <Sidebar
-          className="hidden md:block bg-white border-r border-gray-200 transition-all duration-300 min-h-screen"
+          className="hidden md:block bg-white border-r border-gray-200 transition-all duration-300 min-h-screen mt-16"
           collapsible="offcanvas"
         >
           <SidebarContent className="p-0">
