@@ -1,9 +1,16 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { User, Mail, Calendar, Settings, LogOut, Edit3, Crown } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useUserProfile } from "@/hooks/useUserProfile";
+
+// Helper to format ISO string to "Month Year"
+function formatMemberSince(isoDateStr?: string) {
+  if (!isoDateStr) return "";
+  const d = new Date(isoDateStr);
+  return d.toLocaleString("default", { month: "long", year: "numeric" });
+}
 
 const userMock = {
   name: "John Doe",
@@ -15,8 +22,27 @@ const userMock = {
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { user, profile, loading } = useUserProfile();
 
-  const handleLogout = () => navigate("/login");
+  // Redirect to login if not logged in
+  React.useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login");
+    }
+  }, [loading, user, navigate]);
+
+  const handleLogout = () => {
+    navigate("/login");
+  };
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-xl text-gray-800">Loading...</div>
+      </div>
+    );
+  }
+  if (!profile) return null; // (briefly, until redirected)
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #f1f7ed 0%, #7ca982 100%)' }}>
@@ -31,7 +57,7 @@ const Profile = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2" style={{ color: '#243e36' }}>
-            Welcome back, {userMock.name.split(' ')[0]}!
+            Welcome back, {profile.name?.split(' ')[0] || "User"}!
           </h1>
           <p className="text-gray-700 text-lg">Manage your account and resume building journey</p>
         </div>
@@ -48,10 +74,10 @@ const Profile = () => {
                   <Crown className="w-4 h-4 text-yellow-800" />
                 </div>
               </div>
-              <CardTitle className="text-2xl font-bold" style={{ color: '#243e36' }}>{userMock.name}</CardTitle>
+              <CardTitle className="text-2xl font-bold" style={{ color: '#243e36' }}>{profile.name}</CardTitle>
               <CardDescription className="text-gray-600 flex items-center justify-center gap-2">
                 <Mail className="w-4 h-4" />
-                {userMock.email}
+                {profile.email}
               </CardDescription>
             </CardHeader>
             
@@ -60,13 +86,13 @@ const Profile = () => {
                 <span className="text-sm font-medium" style={{ color: '#243e36' }}>Member since</span>
                 <span className="text-sm text-gray-600 flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
-                  {userMock.joinDate}
+                  {formatMemberSince(profile.createdAt)}
                 </span>
               </div>
               
               <div className="flex items-center justify-between py-2 px-4 bg-gray-50 rounded-lg">
                 <span className="text-sm font-medium" style={{ color: '#243e36' }}>Last active</span>
-                <span className="text-sm text-gray-600">{userMock.lastLogin}</span>
+                <span className="text-sm text-gray-600">N/A</span>
               </div>
               
               <Button className="w-full text-white hover:opacity-90" style={{ backgroundColor: '#243e36' }}>
@@ -76,7 +102,7 @@ const Profile = () => {
             </CardContent>
           </Card>
 
-          {/* Stats Card */}
+          {/* Stats Card and Quick Actions */}
           <Card className="backdrop-blur-sm bg-white/95 shadow-xl border-0">
             <CardHeader>
               <CardTitle className="text-xl font-bold flex items-center gap-2" style={{ color: '#243e36' }}>
