@@ -1,12 +1,24 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Mail, Calendar, Settings, LogOut, Edit3, Crown } from "lucide-react";
+import { User, Mail, Calendar, Settings, LogOut, Edit3, Crown, Delete } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { useResumeStorage } from "@/hooks/useResumeStorage";
 import { Table, TableHeader, TableBody, TableCell, TableRow, TableHead } from "@/components/ui/table";
 import { formatDistanceToNow } from "date-fns";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 // Helper to format ISO string to "Month Year"
 function formatMemberSince(isoDateStr?: string) {
@@ -26,7 +38,8 @@ const userMock = {
 const Profile = () => {
   const navigate = useNavigate();
   const { user, profile, loading } = useUserProfile();
-  const { resumes, loading: resumesLoading } = useResumeStorage();
+  const { resumes, loading: resumesLoading, removeResume } = useResumeStorage();
+  const [deletingResumeId, setDeletingResumeId] = React.useState<string | null>(null);
 
   // Redirect to login if not logged in
   React.useEffect(() => {
@@ -189,6 +202,7 @@ const Profile = () => {
                     <TableHead>Title</TableHead>
                     <TableHead>Last Modified</TableHead>
                     <TableHead />
+                    <TableHead />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -209,6 +223,45 @@ const Profile = () => {
                         >
                           Edit
                         </Button>
+                      </TableCell>
+                      <TableCell>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="text-red-500 hover:text-red-700"
+                              aria-label="Delete resume"
+                              onClick={() => setDeletingResumeId(resume.id)}
+                            >
+                              <Delete />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete Resume</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete this resume? This action cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel
+                                onClick={() => setDeletingResumeId(null)}
+                              >
+                                Cancel
+                              </AlertDialogCancel>
+                              <AlertDialogAction
+                                className="bg-red-500 text-white hover:bg-red-600"
+                                onClick={async () => {
+                                  await removeResume(resume.id);
+                                  setDeletingResumeId(null);
+                                }}
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -234,3 +287,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
