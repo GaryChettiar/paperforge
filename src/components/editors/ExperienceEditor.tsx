@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -7,6 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card } from '@/components/ui/card';
 import { Briefcase, Plus, Trash2, Sparkles } from 'lucide-react';
+import { useAIService } from '@/hooks/useAIService';
+import { useToast } from '@/hooks/use-toast';
 
 interface Experience {
   id: string;
@@ -28,6 +30,10 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
   data,
   onChange
 }) => {
+  const [aiLoading, setAiLoading] = useState<string | null>(null);
+  const { generateResponse } = useAIService();
+  const { toast } = useToast();
+
   const addExperience = () => {
     const newExperience: Experience = {
       id: Date.now().toString(),
@@ -43,7 +49,7 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
   };
 
   const updateExperience = (id: string, field: keyof Experience, value: any) => {
-    onChange(data.map(exp => 
+    onChange(data.map(exp =>
       exp.id === id ? { ...exp, [field]: value } : exp
     ));
   };
@@ -76,6 +82,53 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
     }
   };
 
+  const handleAIEnhance = async (exp: Experience) => {
+    setAiLoading(exp.id);
+    toast({ title: "AI enhancing your work...", description: `Improving ${exp.company || "experience"} description.` });
+    try {
+      const context = {
+        ...exp,
+        // If more context is needed (like summary, skills, etc.), pass it here
+      };
+      const prompt = `
+Please rewrite the job description bullet points for this position to be stronger, action-oriented, and achievement-focused, including quantitative results where possible. Return a numbered bullet list, each as a concise sentence.
+
+Job Title: ${exp.title}
+Company: ${exp.company}
+Location: ${exp.location}
+Period: ${exp.startDate} - ${exp.current ? "Present" : exp.endDate || ""}
+Current Bullet Points:
+${exp.description.filter(Boolean).map(d => "- " + d).join("\n")}
+`
+      ;
+
+      const aiResult = await generateResponse(prompt, context);
+
+      // Try to split out returned items by lines/numbers/dashes (handle possible formatting):
+      const lines = aiResult
+        .split(/\n/)
+        .map(l => l.replace(/^\d+[.)-]? ?/, '').replace(/^- /, '').trim())
+        .filter(Boolean);
+      if (lines.length) {
+        updateExperience(exp.id, "description", lines);
+        toast({ title: "Success!", description: "AI-enhanced bullet points added." });
+      } else {
+        toast({
+          title: "AI did not generate valid bullet points.",
+          description: aiResult,
+          variant: "destructive"
+        });
+      }
+    } catch (e: any) {
+      toast({
+        title: "AI Enhancement Failed",
+        description: e?.message || "AI couldn't enhance the work experience.",
+        variant: "destructive",
+      });
+    }
+    setAiLoading(null);
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
@@ -99,9 +152,11 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
                   variant="outline"
                   size="sm"
                   className="flex items-center space-x-2"
+                  onClick={() => handleAIEnhance(experience)}
+                  disabled={aiLoading === experience.id}
                 >
                   <Sparkles className="w-4 h-4" />
-                  <span>AI Enhance</span>
+                  <span>{aiLoading === experience.id ? "Enhancing..." : "AI Enhance"}</span>
                 </Button>
                 <Button
                   variant="ghost"
@@ -123,7 +178,7 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
                   placeholder="Senior Software Engineer"
                 />
               </div>
-              
+
               <div>
                 <Label>Company</Label>
                 <Input
@@ -132,7 +187,7 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
                   placeholder="Tech Corp"
                 />
               </div>
-              
+
               <div>
                 <Label>Location</Label>
                 <Input
@@ -141,7 +196,7 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
                   placeholder="San Francisco, CA"
                 />
               </div>
-              
+
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id={`current-${experience.id}`}
@@ -150,7 +205,7 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
                 />
                 <Label htmlFor={`current-${experience.id}`}>Currently working here</Label>
               </div>
-              
+
               <div>
                 <Label>Start Date</Label>
                 <Input
@@ -159,7 +214,7 @@ export const ExperienceEditor: React.FC<ExperienceEditorProps> = ({
                   onChange={(e) => updateExperience(experience.id, 'startDate', e.target.value)}
                 />
               </div>
-              
+
               {!experience.current && (
                 <div>
                   <Label>End Date</Label>

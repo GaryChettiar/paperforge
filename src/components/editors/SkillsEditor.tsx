@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Settings, Plus, X, Sparkles } from 'lucide-react';
+import { useAIService } from '@/hooks/useAIService';
+import { useToast } from '@/hooks/use-toast';
 
 interface SkillsEditorProps {
   data: string[];
@@ -16,6 +18,10 @@ export const SkillsEditor: React.FC<SkillsEditorProps> = ({
   onChange
 }) => {
   const [newSkill, setNewSkill] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
+  const { generateResponse } = useAIService();
+  const { toast } = useToast();
 
   const addSkill = () => {
     if (newSkill.trim() && !data.includes(newSkill.trim())) {
@@ -36,7 +42,7 @@ export const SkillsEditor: React.FC<SkillsEditorProps> = ({
   };
 
   const suggestedSkills = [
-    'JavaScript', 'Python', 'React', 'Node.js', 'TypeScript', 'AWS', 'Docker', 
+    'JavaScript', 'Python', 'React', 'Node.js', 'TypeScript', 'AWS', 'Docker',
     'Kubernetes', 'MongoDB', 'PostgreSQL', 'Git', 'Agile', 'Scrum', 'REST APIs'
   ];
 
@@ -44,6 +50,29 @@ export const SkillsEditor: React.FC<SkillsEditorProps> = ({
     if (!data.includes(skill)) {
       onChange([...data, skill]);
     }
+  };
+
+  const handleAISuggest = async () => {
+    setAiLoading(true);
+    setAiSuggestions([]);
+    toast({ title: "AI analyzing your resume...", description: "Generating best-fit skill suggestions." });
+    try {
+      // context doesn't include full resume since skills editor is sectioned and doesn't get resumeData
+      // Let's ask for general skills list based on "my resume" for now.
+      const response = await generateResponse(
+        "Based on my resume details, suggest a concise, comma-separated list of the top 10 technical and soft skills I should include in my resume. Only return the skills list, separated by commas."
+      );
+      const parsed = response.split(",").map(s => s.trim()).filter(Boolean);
+      setAiSuggestions(parsed.filter(s => s && !data.includes(s)));
+      toast({ title: "AI Suggestion Ready!", description: "Review and add suggested skills below." });
+    } catch (e: any) {
+      toast({
+        title: "AI Suggestion Failed",
+        description: e?.message || "Could not fetch AI skill suggestions. Try again.",
+        variant: "destructive",
+      });
+    }
+    setAiLoading(false);
   };
 
   return (
@@ -57,11 +86,34 @@ export const SkillsEditor: React.FC<SkillsEditorProps> = ({
           variant="outline"
           size="sm"
           className="flex items-center space-x-2"
+          onClick={handleAISuggest}
+          disabled={aiLoading}
         >
           <Sparkles className="w-4 h-4" />
-          <span>AI Suggest</span>
+          {aiLoading ? <span>Analyzing...</span> : <span>AI Suggest</span>}
         </Button>
       </div>
+
+      {aiSuggestions.length > 0 && (
+        <div className="mb-4">
+          <Label>AI Suggested Skills</Label>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {aiSuggestions.map(skill => (
+              <Badge
+                key={skill}
+                variant="outline"
+                className="cursor-pointer hover:bg-blue-50 border-blue-300"
+                onClick={() => {
+                  addSuggestedSkill(skill);
+                  setAiSuggestions(aiSuggestions.filter(s => s !== skill));
+                }}
+              >
+                + {skill}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="space-y-4">
         <div>
