@@ -1,37 +1,11 @@
 
 /**
- * First, tries to export resume PDF using backend Netlify Function (Puppeteer), else falls back to html2canvas/jsPDF.
+ * Exports resume PDF using frontend html2canvas + jsPDF.
+ * The Netlify function (backend Puppeteer) is no longer used.
  */
 
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-
-// Helper: Calls Netlify Function, returns true if used (PDF is downloaded).
-async function tryNetlifyExport(html: string, filename = "resume.pdf") {
-  try {
-    const res = await fetch('/.netlify/functions/export-pdf', {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ html, filename }),
-    });
-
-    if (res.ok) {
-      const blob = await res.blob();
-      // Browser-friendly download:
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      return true;
-    }
-    // Fallback if Netlify function is unavailable
-    return false;
-  } catch {
-    return false; // Fallback to frontend approach
-  }
-}
 
 export const exportToPDF = async (elementId: string, filename: string = 'resume.pdf') => {
   try {
@@ -40,14 +14,7 @@ export const exportToPDF = async (elementId: string, filename: string = 'resume.
       throw new Error(`Element with ID "${elementId}" not found. Make sure the resume preview is visible.`);
     }
 
-    // Try Netlify backend function first
-    const html = element.outerHTML;
-    if (await tryNetlifyExport(html, filename)) {
-      console.log('Exported via Netlify Function (Puppeteer).');
-      return;
-    }
-
-    // Fallback frontend: html2canvas/jsPDF
+    // Wait a bit to allow any rendering to complete
     await new Promise(resolve => setTimeout(resolve, 1000));
     console.log('Starting PDF export for element:', elementId);
 
