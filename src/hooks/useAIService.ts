@@ -5,6 +5,7 @@ import { AIService } from '@/utils/aiService';
 // Read the OpenRouter API key from environment variable (set on Netlify)
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY as string | undefined;
 
+
 export const useAIService = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -14,6 +15,7 @@ export const useAIService = () => {
   const generateResponse = useCallback(async (prompt: string, context?: any): Promise<string> => {
     setIsLoading(true);
     try {
+      console.log("OPENROUTER_API_KEY:", OPENROUTER_API_KEY);
       if (!OPENROUTER_API_KEY) {
         throw new Error('API key not set. Please configure VITE_OPENROUTER_API_KEY in your environment variables.');
       }
