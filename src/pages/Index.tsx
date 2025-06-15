@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ResumeEditor } from '@/components/ResumeEditor';
@@ -10,6 +11,14 @@ import { Download, Sparkles, Eye, Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { exportToPDF } from '@/utils/pdfExport';
 import { useToast } from '@/hooks/use-toast';
+
+// Sidebar imports
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarContent,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 
 export interface ResumeData {
   personalInfo: {
@@ -153,10 +162,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#f1f7ed' }}>
-      <Header />
-      
-      <div className="flex flex-col md:flex-row h-[calc(100vh-64px)]">
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full" style={{ backgroundColor: '#f1f7ed' }}>
+        <div className="fixed top-0 left-0 right-0 z-30">
+          <Header />
+          {/* Always visible SidebarTrigger in the header */}
+          <SidebarTrigger className="absolute left-4 top-4 md:left-6 md:top-[22px] z-40 bg-white border border-gray-200 rounded-lg shadow-sm p-1" />
+        </div>
         {/* Mobile Template Sidebar */}
         <div className="block md:hidden">
           <Sheet open={showMobileTemplates} onOpenChange={setShowMobileTemplates}>
@@ -184,18 +196,23 @@ const Index = () => {
           </Sheet>
         </div>
 
-        {/* Desktop Template Sidebar */}
-        <div className="hidden md:block">
-          <TemplateSidebar 
-            selectedTemplate={selectedTemplate}
-            onTemplateSelect={setSelectedTemplate}
-            creativeSidebarColor={creativeSidebarColor}
-            onCreativeSidebarColorChange={setCreativeSidebarColor}
-          />
-        </div>
+        {/* Desktop Template Sidebar (collapsible) */}
+        <Sidebar
+          className="hidden md:block bg-white border-r border-gray-200 transition-all duration-300 min-h-screen"
+          collapsible
+        >
+          <SidebarContent className="p-0">
+            <TemplateSidebar
+              selectedTemplate={selectedTemplate}
+              onTemplateSelect={setSelectedTemplate}
+              creativeSidebarColor={creativeSidebarColor}
+              onCreativeSidebarColorChange={setCreativeSidebarColor}
+            />
+          </SidebarContent>
+        </Sidebar>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col lg:flex-row">
+        <div className="flex-1 flex flex-col lg:flex-row pt-16 md:pt-0">
           {/* Editor Section */}
           <div className={`transition-all duration-300 ${showPreview ? 'lg:w-1/2' : 'flex-1'} bg-white border-b lg:border-b-0 lg:border-r border-gray-200`}>
             <div className="p-4 lg:p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
@@ -264,16 +281,16 @@ const Index = () => {
             </div>
           )}
         </div>
-      </div>
 
-      {/* AI Assistant Modal */}
-      <AIAssistant 
-        isOpen={aiAssistantOpen}
-        onClose={() => setAiAssistantOpen(false)}
-        resumeData={resumeData}
-        onResumeDataChange={setResumeData}
-      />
-    </div>
+        {/* AI Assistant Modal */}
+        <AIAssistant 
+          isOpen={aiAssistantOpen}
+          onClose={() => setAiAssistantOpen(false)}
+          resumeData={resumeData}
+          onResumeDataChange={setResumeData}
+        />
+      </div>
+    </SidebarProvider>
   );
 };
 
